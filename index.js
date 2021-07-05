@@ -5,7 +5,6 @@ const { DbSingleton } = require("./lib/dbInstance");
 const { UserRepository } = require("./repositories/UserRepository");
 
 let users = undefined;
-let aritcles = undefined;
 
 const PORT = process.env.SERVER_PORT || 1337
 
@@ -23,5 +22,7 @@ app.listen(PORT, async () => {
 
 	const temp = await DbSingleton.getInstance();
 
+	console.log("Created database instance");
+	
 	users = new UserRepository();
 })

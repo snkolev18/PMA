@@ -5,6 +5,7 @@ const { DbSingleton } = require("../lib/dbInstance");
 class UserRepository {
     constructor() {
 		this.#users = DbSingleton.getExistingInstance();
+        console.info("Creating instance of UserRepository");
 	}
 
     async getAll() {
