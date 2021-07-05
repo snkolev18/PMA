@@ -1,0 +1,32 @@
+{
+  "name": "scalefocus-pma",
+  "version": "1.0.0",
+  "description": "The project for my school internship at Scalefocus",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/snkolev18/Scalefocus-PMA.git"
+  },
+  "author": "SNKolev18",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/snkolev18/Scalefocus-PMA/issues"
+  },
+  "homepage": "https://github.com/snkolev18/Scalefocus-PMA#readme",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "express-session": "^1.17.2",
+    "msnodesqlv8": "^2.2.0",
+    "mssql": "^7.1.3"
+  },
+  "devDependencies": {
+    "eslint": "^7.30.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.23.4"
+  }
+}
