@@ -5,6 +5,7 @@ const session = require("express-session")
 const app = express();
 const { DbSingleton } = require("./lib/dbInstance");
 const { UserRepository } = require("./repositories/UserRepository");
+const { isAuthenticated, isAdmin } = require("./middlewares/authentication");
 const PORT = process.env.SERVER_PORT || 1337
 
 let users = undefined;
@@ -32,9 +33,17 @@ require("./routes/router")(app);
 
 app.get("/", async function(req, res) {
 	const allUsers = await users.getAll();
-	console.log(allUsers);
+	// console.log(allUsers);
 	res.json(allUsers);
 })
+
+app.get("/protectedTempRoute", isAuthenticated, function(req, res) {
+	res.send(`<h1>Hello, ${req.session.token.username}</h1>`)
+});
+
+app.get("/adminOnlyRoute", isAdmin, function(req, res) {
+	res.send(`<h1>Hello, admin user ${req.session.token.username}</h1>`);
+});
 
 app.listen(PORT, async () => {
 	console.info(`Server started on port ${PORT}`);
