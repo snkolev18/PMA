@@ -1,3 +1,4 @@
+const { VarChar, NVarChar } = require("mssql/msnodesqlv8");
 const sql = require("mssql/msnodesqlv8");
 const { config } = require("../config/database_config");
 const { DbSingleton } = require("../lib/dbInstance");
@@ -15,6 +16,22 @@ class UserRepository {
         }
         catch (err) {
             console.error(err);
+        }
+    }
+
+    async register(user) {
+        try {
+            const result = this.#users.request()
+                .input("Username", VarChar, user.username)
+                .input("HashedPassword", VarChar, user.password)
+                .input("Salt", VarChar, user.hash)
+                .input("Firstname", NVarChar, user.fname)
+                .input("Lastname", NVarChar, user.lname)
+                .execute("RegisterUser")
+            console.log(result);
+        } 
+        catch(error) {
+            return 11;
         }
     }
 
