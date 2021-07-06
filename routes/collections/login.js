@@ -6,7 +6,7 @@ const router = express.Router();
 
 const { DbSingleton } = require("../../lib/dbInstance");
 const { UserRepository } = require("../../repositories/UserRepository");
-const { generateSalt, hashPassword } = require("../../lib/hash");
+const { hashPassword } = require("../../lib/hash");
 let users = undefined;
 
 router.get("/", function(req, res) {

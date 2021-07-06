@@ -72,6 +72,7 @@ class UserRepository {
 
     // Private members
     #users
+    
 }
 
 exports.UserRepository = UserRepository
