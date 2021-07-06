@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express = require("express")
 const bodyParser = require("body-parser");
+const session = require("express-session")
 const app = express();
 const { DbSingleton } = require("./lib/dbInstance");
 const { UserRepository } = require("./repositories/UserRepository");
@@ -12,6 +13,20 @@ let users = undefined;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended : true }));
 app.set("views", "./views");
+
+app.use(session({
+	secret: process.env.SESSION_SECRET,
+	secure: true,
+	resave: false,
+	saveUninitialized: true,
+	cookie: {
+		httpOnly: true,
+		// Expires after 1 day
+		expires: 24 * 60 * 60 * 1000
+	}
+}));
+
+
 
 require("./routes/router")(app);
 

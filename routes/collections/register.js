@@ -1,4 +1,4 @@
-// root/router/collections/register.js
+// root/routes/collections/register.js
 
 
 const express = require("express");
@@ -20,7 +20,13 @@ router.post("/", async function(req, res) {
 	user.salt = salt;
 	user.hash = hashed;
 	console.log(user);
-	users.register(user);
+	const sc = users.register(user);
+	if (sc) {
+		res.send("Veche ima takuv username");
+	}
+	else {
+		res.send("Dobre si");
+	}
 });
 
 module.exports = router;

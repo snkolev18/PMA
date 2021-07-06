@@ -1,4 +1,4 @@
-const { VarChar, NVarChar } = require("mssql/msnodesqlv8");
+const { VarChar, NVarChar, Int, TinyInt } = require("mssql/msnodesqlv8");
 const sql = require("mssql/msnodesqlv8");
 const { config } = require("../config/database_config");
 const { DbSingleton } = require("../lib/dbInstance");
@@ -11,7 +11,7 @@ class UserRepository {
 
     async getAll() {
         try {
-            const result = this.#users.request().query("SELECT * FROM Users");
+            const result = await this.#users.request().query("SELECT * FROM Users");
             return result;
         }
         catch (err) {
@@ -21,7 +21,7 @@ class UserRepository {
 
     async register(user) {
         try {
-            const result = this.#users.request()
+            const result = await this.#users.request()
                 .input("Username", VarChar, user.username)
                 .input("HashedPassword", VarChar, user.hash)
                 .input("Salt", VarChar, user.salt)
@@ -30,8 +30,43 @@ class UserRepository {
                 .execute("RegisterUser")
             console.log(result);
         } 
-        catch(error) {
+        catch(err) {
+            console.error(err);
             return 11;
+        }
+    }
+
+    async login(username, passwordHash) {
+        try {
+            const result = await this.#users.request()
+                .input("Username", VarChar, username)
+                .input("PasswordHashWithSaltIncoming", VarChar, passwordHash)
+                .output("IsVerified", Int)
+				.output("RoleId", TinyInt)
+                .output("Firstname", NVarChar)
+                .output("Lastname", NVarChar)
+                .execute("VerifyLogin")
+            console.log(result);
+            return {
+				idVerified: result.output.IsVerified,
+				roleId: result.output.RoleId,
+                firstname: result.output.Firstname,
+                lastname: result.output.Lastname,
+			}
+        }
+        catch(err) {
+            console.error(err);
+        }
+    }
+
+    async getSaltByUsername(username) {
+        try {
+            const salt = await this.#users.request().query`SELECT Salt from Users WHERE Username = ${username}`;
+            return salt.recordset[0];
+        }
+        catch (err) {
+            console.error(err);
+            return 12;
         }
     }
 
