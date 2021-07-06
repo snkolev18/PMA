@@ -6,6 +6,7 @@ const router = express.Router();
 
 const { DbSingleton } = require("../../lib/dbInstance");
 const { UserRepository } = require("../../repositories/UserRepository");
+const { generateSalt, hashPassword } = require("../../lib/hash");
 let users = undefined;
 
 router.get("/", function(req, res) {
@@ -13,8 +14,13 @@ router.get("/", function(req, res) {
 });
 
 router.post("/", async function(req, res) {
-	console.log(req.body);
-	res.redirect("/");
+	const user = req.body;
+	const salt = await generateSalt();
+	const hashed = await hashPassword(user.password, salt);
+	user.salt = salt;
+	user.hash = hashed;
+	console.log(user);
+	users.register(user);
 });
 
 module.exports = router;

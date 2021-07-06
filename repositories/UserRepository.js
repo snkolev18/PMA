@@ -23,8 +23,8 @@ class UserRepository {
         try {
             const result = this.#users.request()
                 .input("Username", VarChar, user.username)
-                .input("HashedPassword", VarChar, user.password)
-                .input("Salt", VarChar, user.hash)
+                .input("HashedPassword", VarChar, user.hash)
+                .input("Salt", VarChar, user.salt)
                 .input("Firstname", NVarChar, user.fname)
                 .input("Lastname", NVarChar, user.lname)
                 .execute("RegisterUser")
