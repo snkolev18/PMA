@@ -137,6 +137,22 @@ router.post("/teams/edit", isAdmin, async function(req, res) {
 
 router.post("/teams/delete", isAdmin, async function(req, res) {
 	// TO DO: Method that deletes a team
+
+
+	console.log(req.body.id);
+
+	const id = req.body.id;
+	const teamForDeletion = await users.getUserById(id);
+	if(!teamForDeletion) {
+		res.status(404).send("Error appeared");
+		return;
+	}
+
+	console.log(teamForDeletion);
+
+	const result = await teams.delete(id);
+	console.info(result);
+	res.redirect("/admin/teams");
 });
 
 module.exports = router;

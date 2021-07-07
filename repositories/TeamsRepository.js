@@ -40,6 +40,19 @@ class TeamsRepository {
         }
     }
 
+    async delete(id) {
+        try {
+            const result = await this.#teams.request()
+                .input("Id", Int, id)
+                .execute("DeleteTeam")
+            console.log(result);
+        }
+        catch (err) {
+            console.error(err);
+            return ;
+        }
+    }
+
     async getAll() {
         try {
             const result = await this.#teams.request().query("SELECT * FROM vAllTeams");
