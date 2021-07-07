@@ -21,10 +21,7 @@
                     <h3 class="card-title">Username: <%= user.Username %></h3>
                     <p class="card-text">Firstname: <%= user.Firstname %></p>
                     <p class="card-text">Lastname: <%= user.Lastname %></p>
-                    <a href="#" class="btn btn-primary">Edit article</a>
-                    <form action="/admin/users/delete" method="POST">
-                    <input readonly name="id" id="id" value="<%= user.Id%>" required type="hidden"><br>
-                    <button type="submit" class="btn btn-primary">DELETE</button>
+                    <a href="/admin/users/edit/<%= user.Id %>" class="btn btn-primary">Edit</a>
                 </div>
             </div>
         </div>

@@ -95,6 +95,25 @@ class UserRepository {
         }
     }
 
+    async update(newUserCredentials, id, lastModifiedById) {
+        try {
+            const result = await this.#users.request()
+                .input("Id", Int, id)
+                .input("NewUsername", VarChar, newUserCredentials.username)
+                .input("NewHashedPassword", VarChar, newUserCredentials.passwordHash)
+                .input("NewSalt", VarChar, newUserCredentials.salt)
+                .input("NewFirstname", NVarChar, newUserCredentials.fname)
+                .input("NewLastname", NVarChar, newUserCredentials.lname)
+                .input("LastModifiedById", Int, lastModifiedById)
+                .execute("UpdateUser")
+            console.log(result);
+        }
+        catch (err) {
+            console.error(err);
+            return 22;
+        }
+    }
+
     // Private members
     #users
     

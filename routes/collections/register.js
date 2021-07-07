@@ -20,7 +20,8 @@ router.post("/", async function(req, res) {
 	user.salt = salt;
 	user.hash = hashed;
 	console.log(user);
-	const sc = users.register(user);
+	const sc = await users.register(user);
+	console.log(sc);
 	if (sc) {
 		res.send("Veche ima takuv username");
 	}
