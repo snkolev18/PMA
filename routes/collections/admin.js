@@ -79,7 +79,7 @@ router.post("/users/edit/", isAdmin, async function(req, res) {
 
 	const sc = await users.update(newUserCredentials, newUserCredentials.id, req.session.token.id);
 	if (sc) {
-		res.send("There is already a user with this username. Try again");
+		res.send("There is already a user with this username. Try again!");
 		res.end();
 		return;
 	}
@@ -119,9 +119,20 @@ router.get("/teams/edit/:id", isAdmin, async function(req, res) {
 });
 
 router.post("/teams/edit", isAdmin, async function(req, res) {
+	// TO DO: Add validation for invalid id from the request body, because the request itself can be repeated with web proxies such as Burp, that can interecept web traffic
+
+	
 	console.log(`Receiving new team's data ${req.body}`);
 	const newTeamsData = req.body;
-	
+
+	const sc = await teams.update(newTeamsData, newTeamsData.id, req.session.token.id);
+	if (sc) {
+		res.send("There is already a team with this title. Try again!");
+		res.end();
+		return;
+	}
+
+	res.redirect("/admin/teams");
 });
 
 router.post("/teams/delete", isAdmin, async function(req, res) {
