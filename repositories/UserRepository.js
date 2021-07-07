@@ -11,8 +11,8 @@ class UserRepository {
 
     async getAll() {
         try {
-            const result = await this.#users.request().query("SELECT Username, Firstname, Lastname, DateOfCreation FROM Users");
-            return result;
+            const result = await this.#users.request().query("SELECT Id, Username, Firstname, Lastname, DateOfCreation FROM Users");
+            return result.recordset;
         }
         catch (err) {
             console.error(err);
@@ -67,6 +67,31 @@ class UserRepository {
         catch (err) {
             console.error(err);
             return 12;
+        }
+    }
+
+
+    async delete(id) {
+        try {
+            const result = await this.#users.request()
+                .input("Id", Int, id)
+                .execute("DeleteUser")
+            console.log(result);
+        }
+        catch (err) {
+            console.error(err);
+            return 13;
+        }
+    }
+
+    async getUserById(id) {
+        try {
+            const result = await this.#users.request().query`SELECT Id, Username, Firstname, Lastname, DateOfCreation FROM Users WHERE Id = ${id}`;
+            return result.recordset;
+        }
+        catch (err) {
+            console.error(err);
+            return 14;
         }
     }
 

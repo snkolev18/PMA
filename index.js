@@ -45,6 +45,11 @@ app.get("/adminOnlyRoute", isAdmin, function(req, res) {
 	res.send(`<h1>Hello, admin user ${req.session.token.username}</h1>`);
 });
 
+app.get("/logout", isAuthenticated, function(req, res) {
+	req.session.token = null;
+	res.send("You are being logged out");
+});
+
 app.listen(PORT, async () => {
 	console.info(`Server started on port ${PORT}`);
 	console.log(`Connecting to Database: ${process.env.DATABASE}`);

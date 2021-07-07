@@ -10,6 +10,11 @@ const { hashPassword } = require("../../lib/hash");
 let users = undefined;
 
 router.get("/", function(req, res) {
+	if(req.session.token) {
+		res.redirect("/logout");
+		res.end();
+		return;
+	}
 	res.render("login.ejs")
 });
 
