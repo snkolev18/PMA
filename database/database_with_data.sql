@@ -1,12 +1,12 @@
 USE [master]
 GO
-/****** Object:  Database [Scalefocus-PMA-db]    Script Date: 7/7/2021 2:25:24 PM ******/
+/****** Object:  Database [Scalefocus-PMA-db]    Script Date: 7/8/2021 1:06:26 AM ******/
 CREATE DATABASE [Scalefocus-PMA-db]
  CONTAINMENT = NONE
  ON  PRIMARY 
-( NAME = N'Scalefocus-PMA-db', FILENAME = N'C:\Users\SNKolev18\Scalefocus-PMA-db.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
+( NAME = N'Scalefocus-PMA-db', FILENAME = N'D:\SQL Server 2019\MSSQL15.SQLEXPRESS\MSSQL\DATA\Scalefocus-PMA-db.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
  LOG ON 
-( NAME = N'Scalefocus-PMA-db_log', FILENAME = N'C:\Users\SNKolev18\Scalefocus-PMA-db_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
+( NAME = N'Scalefocus-PMA-db_log', FILENAME = N'D:\SQL Server 2019\MSSQL15.SQLEXPRESS\MSSQL\DATA\Scalefocus-PMA-db_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
 GO
 IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
 begin
@@ -73,7 +73,7 @@ ALTER DATABASE [Scalefocus-PMA-db] SET DELAYED_DURABILITY = DISABLED
 GO
 USE [Scalefocus-PMA-db]
 GO
-/****** Object:  Table [dbo].[Projects]    Script Date: 7/7/2021 2:25:24 PM ******/
+/****** Object:  Table [dbo].[Projects]    Script Date: 7/8/2021 1:06:26 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -92,7 +92,7 @@ CREATE TABLE [dbo].[Projects](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ProjectsTeams]    Script Date: 7/7/2021 2:25:24 PM ******/
+/****** Object:  Table [dbo].[ProjectsTeams]    Script Date: 7/8/2021 1:06:26 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -107,7 +107,7 @@ CREATE TABLE [dbo].[ProjectsTeams](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Roles]    Script Date: 7/7/2021 2:25:24 PM ******/
+/****** Object:  Table [dbo].[Roles]    Script Date: 7/8/2021 1:06:26 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -121,7 +121,7 @@ CREATE TABLE [dbo].[Roles](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Tasks]    Script Date: 7/7/2021 2:25:24 PM ******/
+/****** Object:  Table [dbo].[Tasks]    Script Date: 7/8/2021 1:06:26 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -143,7 +143,7 @@ CREATE TABLE [dbo].[Tasks](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[TaskStatus]    Script Date: 7/7/2021 2:25:24 PM ******/
+/****** Object:  Table [dbo].[TaskStatus]    Script Date: 7/8/2021 1:06:26 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -157,7 +157,7 @@ CREATE TABLE [dbo].[TaskStatus](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Teams]    Script Date: 7/7/2021 2:25:24 PM ******/
+/****** Object:  Table [dbo].[Teams]    Script Date: 7/8/2021 1:06:26 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -165,9 +165,10 @@ GO
 CREATE TABLE [dbo].[Teams](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[Title] [nvarchar](45) NOT NULL,
-	[DateOfCreation] [datetime2](0) NOT NULL,
+	[Description] [nvarchar](200) NULL,
+	[DateOfCreation] [datetime2](0) NULL,
 	[CreatorId] [int] NOT NULL,
-	[DateOfLastChange] [datetime2](0) NOT NULL,
+	[DateOfLastChange] [datetime2](0) NULL,
 	[LastModifiedById] [int] NOT NULL,
  CONSTRAINT [PK_Teams] PRIMARY KEY CLUSTERED 
 (
@@ -175,7 +176,7 @@ CREATE TABLE [dbo].[Teams](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Users]    Script Date: 7/7/2021 2:25:24 PM ******/
+/****** Object:  Table [dbo].[Users]    Script Date: 7/8/2021 1:06:26 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -198,7 +199,7 @@ CREATE TABLE [dbo].[Users](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[UsersTeams]    Script Date: 7/7/2021 2:25:24 PM ******/
+/****** Object:  Table [dbo].[UsersTeams]    Script Date: 7/8/2021 1:06:26 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -212,6 +213,21 @@ CREATE TABLE [dbo].[UsersTeams](
 	[UserId] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
+GO
+/****** Object:  View [dbo].[vAllTeams]    Script Date: 7/8/2021 1:06:26 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE   VIEW [dbo].[vAllTeams]
+AS
+SELECT	
+		t.Id, t.Title, t.[Description], t.DateOfCreation, 
+		t.CreatorId, t.LastModifiedById, t.DateOfLastChange, u.Username
+FROM Teams t
+INNER JOIN Users u
+ON
+t.CreatorId = u.Id
 GO
 SET IDENTITY_INSERT [dbo].[Roles] ON 
 GO
@@ -233,17 +249,27 @@ INSERT [dbo].[TaskStatus] ([Id], [Status]) VALUES (3, N'Completed')
 GO
 SET IDENTITY_INSERT [dbo].[TaskStatus] OFF
 GO
+SET IDENTITY_INSERT [dbo].[Teams] ON 
+GO
+INSERT [dbo].[Teams] ([Id], [Title], [Description], [DateOfCreation], [CreatorId], [DateOfLastChange], [LastModifiedById]) VALUES (1, N'Scalefocus VSCPI group 3', N'The school group of students for the internship in Scalefocus', CAST(N'2021-07-07T18:13:11.0000000' AS DateTime2), 8, NULL, 8)
+GO
+SET IDENTITY_INSERT [dbo].[Teams] OFF
+GO
 SET IDENTITY_INSERT [dbo].[Users] ON 
 GO
 INSERT [dbo].[Users] ([Id], [Username], [PasswordHashWithSalt], [Salt], [Firstname], [Lastname], [DateOfCreation], [CreatorId], [DateOfLastChange], [LastModifiedById], [RoleId]) VALUES (8, N'rootcheto', N'$2b$05$7XxCKFCbW5csQnmHWTrqp.2RBxecOq25L47I.U4G2rVKSIiO8k10i', N'$2b$05$7XxCKFCbW5csQnmHWTrqp.', N'Stoyan', N'Kolev', CAST(N'2021-07-07T12:02:19.0000000' AS DateTime2), NULL, CAST(N'2021-07-07T12:02:19.0000000' AS DateTime2), NULL, 2)
 GO
-INSERT [dbo].[Users] ([Id], [Username], [PasswordHashWithSalt], [Salt], [Firstname], [Lastname], [DateOfCreation], [CreatorId], [DateOfLastChange], [LastModifiedById], [RoleId]) VALUES (9, N'AleXAnDaZaR', N'$2b$05$5caLCGaZ5wEpFTXtK7IGQeU4.Me8yXwrh7Dtn7F7SiFtJi8TkiQ3C', N'$2b$05$5caLCGaZ5wEpFTXtK7IGQe', N'Alex', N'Dinev', CAST(N'2021-07-07T12:11:55.0000000' AS DateTime2), NULL, CAST(N'2021-07-07T12:11:55.0000000' AS DateTime2), NULL, 1)
+INSERT [dbo].[Users] ([Id], [Username], [PasswordHashWithSalt], [Salt], [Firstname], [Lastname], [DateOfCreation], [CreatorId], [DateOfLastChange], [LastModifiedById], [RoleId]) VALUES (9, N'AleXAnDaZaR', N'$2b$05$gF54bBJO0ObrRG3woYD/2.wGVjYMuxKSrc.PgLgKvfEnh4mx660xi', N'$2b$05$gF54bBJO0ObrRG3woYD/2.', N'Alexander', N'Dinev', CAST(N'2021-07-07T12:11:55.0000000' AS DateTime2), NULL, CAST(N'2021-07-07T12:11:55.0000000' AS DateTime2), 8, 1)
+GO
+INSERT [dbo].[Users] ([Id], [Username], [PasswordHashWithSalt], [Salt], [Firstname], [Lastname], [DateOfCreation], [CreatorId], [DateOfLastChange], [LastModifiedById], [RoleId]) VALUES (11, N'debi', N'$2b$05$BGvZGrGCfaXvZ3CbPMahD.20WhD3my77rTby.tVa0x9W0FAfszOFa', N'$2b$05$BGvZGrGCfaXvZ3CbPMahD.', N'asdasdadsads', N'asdadssadads', CAST(N'2021-07-07T16:25:26.0000000' AS DateTime2), NULL, CAST(N'2021-07-07T16:25:26.0000000' AS DateTime2), NULL, 1)
+GO
+INSERT [dbo].[Users] ([Id], [Username], [PasswordHashWithSalt], [Salt], [Firstname], [Lastname], [DateOfCreation], [CreatorId], [DateOfLastChange], [LastModifiedById], [RoleId]) VALUES (13, N'debi22', N'$2b$05$YiRYLqQcQfysJLMz0nWMZud8Yhnph8kP6qeynL1932VUJZye5Yp6C', N'$2b$05$YiRYLqQcQfysJLMz0nWMZu', N'asdasdadsads', N'asdadssadads', CAST(N'2021-07-07T16:26:08.0000000' AS DateTime2), NULL, CAST(N'2021-07-07T16:26:08.0000000' AS DateTime2), NULL, 1)
 GO
 SET IDENTITY_INSERT [dbo].[Users] OFF
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [UQ_Projects_Title]    Script Date: 7/7/2021 2:25:24 PM ******/
+/****** Object:  Index [UQ_Projects_Title]    Script Date: 7/8/2021 1:06:26 AM ******/
 ALTER TABLE [dbo].[Projects] ADD  CONSTRAINT [UQ_Projects_Title] UNIQUE NONCLUSTERED 
 (
 	[Title] ASC
@@ -251,7 +277,7 @@ ALTER TABLE [dbo].[Projects] ADD  CONSTRAINT [UQ_Projects_Title] UNIQUE NONCLUST
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [UQ_Teams_Title]    Script Date: 7/7/2021 2:25:24 PM ******/
+/****** Object:  Index [UQ_Teams_Title]    Script Date: 7/8/2021 1:06:26 AM ******/
 ALTER TABLE [dbo].[Teams] ADD  CONSTRAINT [UQ_Teams_Title] UNIQUE NONCLUSTERED 
 (
 	[Title] ASC
@@ -259,7 +285,7 @@ ALTER TABLE [dbo].[Teams] ADD  CONSTRAINT [UQ_Teams_Title] UNIQUE NONCLUSTERED
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [UQ_Users_Username]    Script Date: 7/7/2021 2:25:24 PM ******/
+/****** Object:  Index [UQ_Users_Username]    Script Date: 7/8/2021 1:06:26 AM ******/
 ALTER TABLE [dbo].[Users] ADD  CONSTRAINT [UQ_Users_Username] UNIQUE NONCLUSTERED 
 (
 	[Username] ASC
@@ -270,6 +296,8 @@ GO
 ALTER TABLE [dbo].[Tasks] ADD  CONSTRAINT [DF_Tasks_DateOfCreation]  DEFAULT (getdate()) FOR [DateOfCreation]
 GO
 ALTER TABLE [dbo].[Tasks] ADD  CONSTRAINT [DF_Tasks_DateOfLastChange]  DEFAULT (getdate()) FOR [DateOfLastChange]
+GO
+ALTER TABLE [dbo].[Teams] ADD  CONSTRAINT [DF_Teams_DateOfCreation]  DEFAULT (getdate()) FOR [DateOfCreation]
 GO
 ALTER TABLE [dbo].[Users] ADD  CONSTRAINT [DF_Users_DateOfCreation]  DEFAULT (getdate()) FOR [DateOfCreation]
 GO
@@ -347,7 +375,38 @@ REFERENCES [dbo].[Users] ([Id])
 GO
 ALTER TABLE [dbo].[UsersTeams] CHECK CONSTRAINT [FK_UsersTeams_Users]
 GO
-/****** Object:  StoredProcedure [dbo].[DeleteUser]    Script Date: 7/7/2021 2:25:24 PM ******/
+/****** Object:  StoredProcedure [dbo].[CreateTeam]    Script Date: 7/8/2021 1:06:26 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE   PROCEDURE [dbo].[CreateTeam]
+
+@Title nvarchar(45),
+@Description nvarchar(200),
+@CreatorId int
+
+AS
+
+INSERT INTO [dbo].[Teams]
+	(Title, [Description], CreatorId)
+VALUES(@Title, @Description, @CreatorId)
+GO
+/****** Object:  StoredProcedure [dbo].[DeleteTeam]    Script Date: 7/8/2021 1:06:26 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE   PROCEDURE [dbo].[DeleteTeam]
+
+@Id int
+
+AS
+
+DELETE FROM Teams
+	WHERE Id = @Id
+GO
+/****** Object:  StoredProcedure [dbo].[DeleteUser]    Script Date: 7/8/2021 1:06:26 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -359,7 +418,7 @@ AS
 
 DELETE FROM Users WHERE Id = @Id
 GO
-/****** Object:  StoredProcedure [dbo].[RegisterUser]    Script Date: 7/7/2021 2:25:24 PM ******/
+/****** Object:  StoredProcedure [dbo].[RegisterUser]    Script Date: 7/8/2021 1:06:26 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -369,8 +428,8 @@ CREATE   PROCEDURE [dbo].[RegisterUser]
 @Username varchar(25),
 @HashedPassword varchar(100),
 @Salt varchar(100),
-@Firstname varchar(50),
-@Lastname varchar(50)
+@Firstname nvarchar(50),
+@Lastname nvarchar(50)
 
 AS
 
@@ -380,7 +439,54 @@ INSERT INTO [dbo].[Users]
 
 VALUES(@Username, @HashedPassword, @Salt, @Firstname, @Lastname)
 GO
-/****** Object:  StoredProcedure [dbo].[VerifyLogin]    Script Date: 7/7/2021 2:25:24 PM ******/
+/****** Object:  StoredProcedure [dbo].[UpdateTeam]    Script Date: 7/8/2021 1:06:26 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE   PROCEDURE [dbo].[UpdateTeam]
+
+@Id int,
+@NewTitle nvarchar(45),
+@NewDescription nvarchar(200),
+@LastModifiedById int
+
+AS
+
+UPDATE Teams
+	SET Title = @NewTitle,
+		Description = @NewDescription,
+		LastModifiedById = @LastModifiedById
+WHERE Id = @Id
+GO
+/****** Object:  StoredProcedure [dbo].[UpdateUser]    Script Date: 7/8/2021 1:06:26 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE   PROCEDURE [dbo].[UpdateUser]
+
+@Id int,
+@NewUsername varchar(25),
+@NewHashedPassword varchar(100),
+@NewSalt varchar(100),
+@NewFirstname nvarchar(50),
+@NewLastname nvarchar(50),
+@LastModifiedById int
+
+AS
+
+UPDATE [dbo].[Users]
+	SET Username = @NewUsername,
+		PasswordHashWithSalt = @NewHashedPassword,
+		Salt = @NewSalt,
+		Firstname = @NewFirstname,
+		Lastname = @NewLastname,
+		LastModifiedById = @LastModifiedById,
+		DateOfLastChange = GETDATE()
+WHERE Id = @Id
+GO
+/****** Object:  StoredProcedure [dbo].[VerifyLogin]    Script Date: 7/8/2021 1:06:26 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
