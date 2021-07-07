@@ -6,10 +6,12 @@ const router = express.Router();
 
 const { DbSingleton } = require("../../lib/dbInstance");
 const { UserRepository } = require("../../repositories/UserRepository");
+const { TeamsRepository } = require("../../repositories/TeamsRepository");
 const { isAdmin } = require("../../middlewares/authentication");
 const { generateSalt, hashPassword } = require("../../lib/hash");
 
 let users = undefined;
+let teams = undefined;
 
 router.get("/", isAdmin, function(req, res) {
 	res.send("<h1>Tova e adminskiya dashboard</h1><br><a href=\"/admin/users/\">Users</a>");
@@ -33,11 +35,11 @@ router.get("/users/edit/:id", isAdmin, async function(req, res) {
 		return;
 	}
 
-	const userForDeletion = await users.getUserById(id);
+	const userExistence = await users.getUserById(id);
 
 	// Logs : Empty array => []
-	console.log(userForDeletion);
-	if(userForDeletion.length === 0) {
+	console.log(userExistence);
+	if(userExistence.length === 0) {
 		res.status(404).send("Error appeared");
 		return;
 	}
@@ -47,7 +49,7 @@ router.get("/users/edit/:id", isAdmin, async function(req, res) {
 	});
 });
 
-router.post("/users/delete", async function(req, res) {
+router.post("/users/delete", isAdmin, async function(req, res) {
 	console.log("NA DELETE")
 	console.log(req.body.id);
 
@@ -65,7 +67,7 @@ router.post("/users/delete", async function(req, res) {
 	res.redirect("/admin/users");
 });
 
-router.post("/users/edit/", async function(req, res) {
+router.post("/users/edit/", isAdmin, async function(req, res) {
 	console.log(req.body);
 	const newUserCredentials = req.body;
 
@@ -85,11 +87,53 @@ router.post("/users/edit/", async function(req, res) {
 	res.redirect("/admin/users");
 });
 
+
+router.get("/teams", isAdmin, async function(req, res) {
+	const _teams_ = await teams.getAll();
+	res.render("teams.ejs", {
+		teams: _teams_
+	});
+});
+
+router.get("/teams/edit/:id", isAdmin, async function(req, res) {
+	const id = req.params.id;
+
+	if (isNaN(id)) {
+		res.send("Invalid ID")
+		res.end();
+		return;
+	}
+
+	const teamExistence = await teams.getTeamById(id);
+
+	// Logs : Empty array => []
+	console.log(teamExistence);
+	if(teamExistence.length === 0) {
+		res.status(404).send("Error appeared");
+		return;
+	}
+
+	res.render("editTeam.ejs", {
+		id: req.params.id
+	});
+});
+
+router.post("/teams/edit", isAdmin, async function(req, res) {
+	console.log(`Receiving new team's data ${req.body}`);
+	const newTeamsData = req.body;
+	
+});
+
+router.post("/teams/delete", isAdmin, async function(req, res) {
+	// TO DO: Method that deletes a team
+});
+
 module.exports = router;
 
-// This callbacks fire immediately so it can get the instance from the singleton class and then to make a single connection to the DB in the constructor of UsersRepository
+// This callbacks fire immediately so it can get the instance from the singleton class and then to make a single connection to the DB in the constructor of UsersRepository, TeamsRepository
 (async () => {
 	const temp = await DbSingleton.getInstance();
 	users = new UserRepository();
+	teams = new TeamsRepository();
 	console.log("Connected");
 })();
