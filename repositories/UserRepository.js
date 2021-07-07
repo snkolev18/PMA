@@ -11,7 +11,7 @@ class UserRepository {
 
     async getAll() {
         try {
-            const result = await this.#users.request().query("SELECT * FROM Users");
+            const result = await this.#users.request().query("SELECT Username, Firstname, Lastname, DateOfCreation FROM Users");
             return result;
         }
         catch (err) {

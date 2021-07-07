@@ -10,6 +10,8 @@ const PORT = process.env.SERVER_PORT || 1337
 
 let users = undefined;
 
+// Servers static files like css, html and looks for them in the public folder
+app.use("/styles", express.static("public/styles"))
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended : true }));
@@ -32,9 +34,7 @@ app.use(session({
 require("./routes/router")(app);
 
 app.get("/", async function(req, res) {
-	const allUsers = await users.getAll();
-	// console.log(allUsers);
-	res.json(allUsers);
+	res.render("index.ejs")
 })
 
 app.get("/protectedTempRoute", isAuthenticated, function(req, res) {
