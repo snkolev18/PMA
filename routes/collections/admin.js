@@ -136,9 +136,6 @@ router.post("/teams/edit", isAdmin, async function(req, res) {
 });
 
 router.post("/teams/delete", isAdmin, async function(req, res) {
-	// TO DO: Method that deletes a team
-
-
 	console.log(req.body.id);
 
 	const id = req.body.id;
@@ -153,6 +150,14 @@ router.post("/teams/delete", isAdmin, async function(req, res) {
 	const result = await teams.delete(id);
 	console.info(result);
 	res.redirect("/admin/teams");
+});
+
+router.get("/teams/users", isAdmin, async function(req, res) {
+	const result = await teams.getTeamsWithUsers();
+
+	res.render("usersTeams.ejs", {
+		teamsWithUsers: result
+	});
 });
 
 module.exports = router;

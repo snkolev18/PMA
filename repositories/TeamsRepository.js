@@ -49,7 +49,31 @@ class TeamsRepository {
         }
         catch (err) {
             console.error(err);
-            return ;
+            return 34;
+        }
+    }
+
+    async assignUserToTeam(teamId, userId) {
+        try {
+            const result = await this.#teams.request()
+                .input("TeamId", Int, teamId)
+                .input("UserId", Int, userId)
+                .execute("AssignUserToTeam")
+            console.log(result);
+        }
+        catch (err) {
+            console.error(err);
+            return 35;
+        }
+    }
+
+    async getTeamsWithUsers() {
+        try {
+            const result = await this.#teams.request().query("SELECT * FROM vTeamsWithUsers");
+            return result.recordset;
+        }
+        catch (err) {
+            console.error(err);
         }
     }
 
