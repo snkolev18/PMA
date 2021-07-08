@@ -1,3 +1,4 @@
+const { Int, NVarChar } = require("mssql/msnodesqlv8");
 const sql = require("mssql/msnodesqlv8");
 const { config } = require("../config/database_config");
 const { DbSingleton } = require("../lib/dbInstance");
@@ -26,7 +27,7 @@ class ProjectRepository {
                 .input("NewTitle", NVarChar, newProjectData.title)
                 .input("NewDescription", NVarChar, newProjectData.description)
                 .input("LastModifiedById", Int, lastModifiedById)
-                .execute("UpdateTeam");
+                .execute("UpdateProject");
             console.log(result);
         }
         catch(err) {

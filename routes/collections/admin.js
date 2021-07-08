@@ -67,7 +67,8 @@ router.get("/users/edit/:id", isAdmin, async function(req, res) {
 	}
 
 	res.render("editUser.ejs", {
-		id: req.params.id
+		id: req.params.id,
+		user: userExistence[0]
 	});
 });
 
@@ -112,6 +113,7 @@ router.post("/users/edit/", isAdmin, async function(req, res) {
 
 router.get("/teams", isAdmin, async function(req, res) {
 	const _teams_ = await teams.getAll();
+	console.log(_teams_)
 	res.render("teams.ejs", {
 		teams: _teams_
 	});
@@ -139,7 +141,8 @@ router.get("/teams/edit/:id", isAdmin, async function(req, res) {
 
 	res.render("editTeam.ejs", {
 		id: req.params.id,
-		users: _users_
+		users: _users_,
+		team: teamExistence[0]
 	});
 });
 

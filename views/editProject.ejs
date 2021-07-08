@@ -21,17 +21,17 @@
     <div class="col-lg-12 text-lg-center">
     </div>
         <div class="col-lg-8 push-lg-4 personal-info">
-            <form action="/admin/teams/edit/" method="POST">
+            <form action="/user/project/edit/" method="POST">
                 <div class="form-group row">
                     <label class="col-lg-3 col-form-label form-control-label">New Title</label>
                     <div class="col-lg-9">
-                        <input class="form-control" type="text" value="<%= team.Title %>" name="title"/>
+                        <input class="form-control" type="text" value="<%= project.Title %>" name="title"/>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-lg-3 col-form-label form-control-label">New Description</label>
                     <div class="col-lg-9">
-                        <input class="form-control" type="text" value="<%= team.Description %>" name="description"/>
+                        <input class="form-control" type="text" value="<%= project.Description %>" name="description"/>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -44,35 +44,35 @@
                 <input readonly name="id" id="id" value="<%= id %>" required type="hidden"><br>
             </form>
         </div>
-        <div class="container-xl">
+        <!-- <div class="container-xl">
             <div class="table-responsive">
                 <div class="table-wrapper">
                     <div class="table-title">
                         <div class="row">
-                            <div class="col-sm-8"><h2 style="text-align: center;"><b>Users</b></h2></div>
+                            <div class="col-sm-8"><h2 style="text-align: center;"><b>Teams</b></h2></div>
                         </div>
                     </div>
                     <table class="table table-striped table-hover table-bordered">
                         <thead>
                             <tr>
-                                <th>Username</th>
+                                <th>Title</th>
                             </tr>
                         </thead>
                         <tbody>
-                        <% users.map(user => { %>
+                        <% teams.map(team => { %>
                             <tr>
-                                <td><%= user.Username %></td>
+                                <td><%= team.Title %></td>
                             </tr>
                         <% }) %>
                         </tbody>
                     </table>
                 </div>
             </div>
-            <form action="/admin/teams/assign" method="POST">
+            <form action="/user/project/assign" method="POST">
                 <div class="form-group row">
-                    <label class="col-lg-3 col-form-label form-control-label">Assign a user to this team</label>
+                    <label class="col-lg-3 col-form-label form-control-label">Assign a team to this project</label>
                     <div class="col-lg-9">
-                        <input class="form-control" type="text" value="" name="username"/>
+                        <input class="form-control" type="text" value="" name="title"/>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -84,11 +84,13 @@
                     </div>
                 </div>
         </div>
-        <form action="/admin/teams/delete" method="POST">
-            <input readonly name="id" id="id" value="<%= id %>" required type="hidden"><br>
-            <button type="submit" class="btn btn-primary">DELETE</button>
-        </form>
-        <a href="/admin/teams"><button type="submit" class="btn btn-primary">Back</button></a>
+        <form action="/user/project/delete" method="POST">
+        <input readonly name="id" id="id" value="<%= id %>" required type="hidden"><br>
+        <button type="submit" class="btn btn-primary">DELETE</button>
+        -->
+        
+        <a href="/user/projects"><button type="submit" class="btn btn-primary">Back</button></a>
+        
     </div>
 
 
