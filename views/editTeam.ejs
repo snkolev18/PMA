@@ -6,6 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
     rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link href="/styles/table.css" rel="stylesheet">
     <meta name="theme-color" content="#7952b3">
     <title>Document</title>
 </head>
@@ -40,10 +44,52 @@
                 <input readonly name="id" id="id" value="<%= id %>" required type="hidden"><br>
             </form>
         </div>
+        <div class="container-xl">
+            <div class="table-responsive">
+                <div class="table-wrapper">
+                    <div class="table-title">
+                        <div class="row">
+                            <div class="col-sm-8"><h2 style="text-align: center;"><b>Users</b></h2></div>
+                        </div>
+                    </div>
+                    <table class="table table-striped table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Username</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <% users.map(user => { %>
+                            <tr>
+                                <td><%= user.Username %></td>
+                            </tr>
+                        <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <form action="/admin/teams/assign" method="POST">
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label form-control-label">Assign a user to this team</label>
+                    <div class="col-lg-9">
+                        <input class="form-control" type="text" value="" name="username"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label form-control-label"></label>
+                    <div class="col-lg-9">
+                        <input type="reset" class="btn btn-secondary" value="Cancel" />
+                        <button type="submit" class="btn btn-primary">Assign</button>
+                        <input readonly name="teamId" id="id" value="<%= id %>" required type="hidden"><br>
+                    </div>
+                </div>
+        </div>
+        <form action="/admin/teams/delete" method="POST">
+        <input readonly name="id" id="id" value="<%= id %>" required type="hidden"><br>
+        <button type="submit" class="btn btn-primary">DELETE</button>
     </div>
 
-    <form action="/admin/teams/delete" method="POST">
-    <input readonly name="id" id="id" value="<%= id %>" required type="hidden"><br>
-    <button type="submit" class="btn btn-primary">DELETE</button>
+
+
 </body>
 </html>

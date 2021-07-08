@@ -105,16 +105,19 @@ router.get("/teams/edit/:id", isAdmin, async function(req, res) {
 	}
 
 	const teamExistence = await teams.getTeamById(id);
-
 	// Logs : Empty array => []
+
+	// Crashes on a non existing ID of a team
 	console.log(teamExistence);
 	if(teamExistence.length === 0) {
 		res.status(404).send("Error appeared");
 		return;
 	}
+	const _users_ = await users.getAll();
 
 	res.render("editTeam.ejs", {
-		id: req.params.id
+		id: req.params.id,
+		users: _users_
 	});
 });
 
@@ -154,10 +157,24 @@ router.post("/teams/delete", isAdmin, async function(req, res) {
 
 router.get("/teams/users", isAdmin, async function(req, res) {
 	const result = await teams.getTeamsWithUsers();
-
+	console.log(_users_);
 	res.render("usersTeams.ejs", {
 		teamsWithUsers: result
 	});
+});
+
+router.post("/teams/assign", isAdmin, async function(req, res) {
+	const data = req.body;
+	const user = await users.getIdByUsername(data.username);
+	console.log(user);
+	if (user === undefined) {
+		res.send("Non existing username");
+		res.end();
+		return;
+	}
+	console.log(data);
+	const result = await teams.assignUserToTeam(data.teamId, user.Id);
+	console.log(result);
 });
 
 module.exports = router;

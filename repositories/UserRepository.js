@@ -70,6 +70,17 @@ class UserRepository {
         }
     }
 
+    async getIdByUsername(username) {
+        try {
+            const salt = await this.#users.request().query`SELECT Id from Users WHERE Username = ${username}`;
+            return salt.recordset[0];
+        }
+        catch (err) {
+            console.error(err);
+            return 12;
+        }
+    }
+
 
     async delete(id) {
         try {
