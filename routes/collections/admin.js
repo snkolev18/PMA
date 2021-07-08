@@ -14,8 +14,30 @@ let users = undefined;
 let teams = undefined;
 
 router.get("/", isAdmin, function(req, res) {
-	res.send("<h1>Tova e adminskiya dashboard</h1><br><a href=\"/admin/users/\">Users</a>");
+	res.send("<h1>Tova e adminskiya dashboard</h1><br><a href=\"/admin/users/\">Users</a><br><a href=\"/admin/teams/\">Teams</a><br><a href=\"/admin/register/\">Register new user</a>");
 })
+
+
+router.get("/register", isAdmin, function(req, res) {
+	res.render("register.ejs")
+});
+
+router.post("/register", isAdmin, async function(req, res) {
+	const user = req.body;
+	const salt = await generateSalt();
+	const hashed = await hashPassword(user.password, salt);
+	user.salt = salt;
+	user.hash = hashed;
+	console.log(user);
+	const sc = await users.register(user, req.session.token.id);
+	console.log(sc);
+	if (sc) {
+		res.send("Veche ima takuv username");
+	}
+	else {
+		res.send("Dobre si");
+	}
+});
 
 router.get("/users", isAdmin, async function(req, res) {
 	const _users_ = await users.getAll();

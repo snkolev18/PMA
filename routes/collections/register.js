@@ -9,26 +9,26 @@ const { UserRepository } = require("../../repositories/UserRepository");
 const { generateSalt, hashPassword } = require("../../lib/hash");
 let users = undefined;
 
-router.get("/", function(req, res) {
-	res.render("register.ejs")
-});
+// router.get("/", function(req, res) {
+// 	res.render("register.ejs")
+// });
 
-router.post("/", async function(req, res) {
-	const user = req.body;
-	const salt = await generateSalt();
-	const hashed = await hashPassword(user.password, salt);
-	user.salt = salt;
-	user.hash = hashed;
-	console.log(user);
-	const sc = await users.register(user);
-	console.log(sc);
-	if (sc) {
-		res.send("Veche ima takuv username");
-	}
-	else {
-		res.send("Dobre si");
-	}
-});
+// router.post("/", async function(req, res) {
+// 	const user = req.body;
+// 	const salt = await generateSalt();
+// 	const hashed = await hashPassword(user.password, salt);
+// 	user.salt = salt;
+// 	user.hash = hashed;
+// 	console.log(user);
+// 	const sc = await users.register(user);
+// 	console.log(sc);
+// 	if (sc) {
+// 		res.send("Veche ima takuv username");
+// 	}
+// 	else {
+// 		res.send("Dobre si");
+// 	}
+// });
 
 module.exports = router;
 

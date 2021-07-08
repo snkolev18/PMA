@@ -19,7 +19,7 @@ class UserRepository {
         }
     }
 
-    async register(user) {
+    async register(user, creatorId) {
         try {
             const result = await this.#users.request()
                 .input("Username", VarChar, user.username)
@@ -27,6 +27,7 @@ class UserRepository {
                 .input("Salt", VarChar, user.salt)
                 .input("Firstname", NVarChar, user.fname)
                 .input("Lastname", NVarChar, user.lname)
+                .input("CreatorId", Int, creatorId)
                 .execute("RegisterUser")
             console.log(result);
         } 
