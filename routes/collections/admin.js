@@ -199,7 +199,14 @@ router.post("/teams/assign", isAdmin, async function(req, res) {
 	}
 	console.log(data);
 	const result = await teams.assignUserToTeam(data.teamId, user.Id);
+	if (result) {
+		res.send("This user is already in this team")
+		res.send();
+		return;
+	}
 	console.log(result);
+
+	res.redirect("/admin/teams");
 });
 
 module.exports = router;

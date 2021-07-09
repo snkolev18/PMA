@@ -10,9 +10,14 @@ class ProjectRepository {
         console.info("Creating instance of ProjectRepository");
     }
 
-    async create() {
+    async create(project, creatorId) {
         try {
-            
+            const result = await this.#projects.request()
+                .input("Title", NVarChar, project.title)
+                .input("Description", NVarChar, project.description)
+                .input("CreatorId", Int, creatorId)
+                .execute("CreateProject")
+            console.log(result);
         }
         catch(err) {
             console.error(err);

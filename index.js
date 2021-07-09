@@ -34,7 +34,12 @@ app.use(session({
 require("./routes/router")(app);
 
 app.get("/", async function(req, res) {
-	res.render("index.ejs")
+	if (req.session.token) {
+		res.render("index.ejs", { logged : true })
+	}
+	else {
+		res.render("index.ejs", { logged : false })
+	}
 })
 
 app.get("/protectedTempRoute", isAuthenticated, function(req, res) {

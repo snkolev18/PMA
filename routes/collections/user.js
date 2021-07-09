@@ -26,9 +26,12 @@ router.get("/projects", isAuthenticated, async function(req, res) {
 	})
 });
 
+router.get("/project/create", isAuthenticated, async function(req, res) {
+	res.render("createProject.ejs");
+});
+
 router.get("/project/edit/:id", isAuthenticated, async function(req, res) {
 	const id = req.params.id;
-
 
 	if (isNaN(id)) {
 		res.send("Invalid ID")
@@ -45,7 +48,12 @@ router.get("/project/edit/:id", isAuthenticated, async function(req, res) {
 		return;
 	}
 
-    // Returns array with an object so that why is the [0]
+	if (projectExistence[0].CreatorId != req.session.token.id) {
+		res.send("Encountered an error");
+		res.end();
+		return;
+	}
+	// Returns array with an object so that why is the [0]
 	const _teams_ = await teams.getAll();
 	res.render("editProject.ejs", {
 		teams: _teams_,
