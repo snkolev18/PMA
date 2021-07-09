@@ -96,6 +96,17 @@ class TeamsRepository {
             console.error(err);
         }
     }
+
+    async getIdByTitle(title) {
+        try {
+            const result = await this.#teams.request().query`SELECT Id FROM Teams WHERE Title = ${title}`;
+            return result.recordset;
+        }
+        catch(err) {
+            console.error(err);
+        }
+    }
+
     // Private members
     #teams
 };

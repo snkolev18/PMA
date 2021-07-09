@@ -41,6 +41,20 @@ class ProjectRepository {
         }
     }
 
+    async assignProjectToTeam(projectId, teamId) {
+        try {
+            const result = await this.#projects.request()
+                .input("TeamId", Int, teamId)
+                .input("ProjectId", Int, projectId)
+                .execute("AssignProjectToTeam");
+            console.log(result);
+        }
+        catch(err) {
+            console.error(err);
+            return 45;
+        }
+    }
+
 
     async getAll() {
         try {
@@ -55,6 +69,16 @@ class ProjectRepository {
     async getProjectById(id) {
         try {
             const result = await this.#projects.request().query`SELECT * FROM vAllProjects WHERE Id = ${id}`;
+            return result.recordset;
+        }
+        catch(err) {
+            console.error(err);
+        }
+    }
+
+    async getIdByTitle(title) {
+        try {
+            const result = await this.#projects.request().query`SELECT Id FROM Projects WHERE Title = ${title}`;
             return result.recordset;
         }
         catch(err) {

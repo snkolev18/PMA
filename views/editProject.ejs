@@ -44,7 +44,7 @@
                 <input readonly name="id" id="id" value="<%= id %>" required type="hidden"><br>
             </form>
         </div>
-        <!-- <div class="container-xl">
+        <div class="container-xl">
             <div class="table-responsive">
                 <div class="table-wrapper">
                     <div class="table-title">
@@ -80,17 +80,18 @@
                     <div class="col-lg-9">
                         <input type="reset" class="btn btn-secondary" value="Cancel" />
                         <button type="submit" class="btn btn-primary">Assign</button>
-                        <input readonly name="teamId" id="id" value="<%= id %>" required type="hidden"><br>
+                        <input readonly name="projectId" id="id" value="<%= id %>" required type="hidden"><br>
                     </div>
                 </div>
+            </form>
         </div>
-        <form action="/user/project/delete" method="POST">
+        <!--<form action="/user/project/delete" method="POST">
         <input readonly name="id" id="id" value="<%= id %>" required type="hidden"><br>
-        <button type="submit" class="btn btn-primary">DELETE</button>
-        -->
+        <button type="submit" class="btn btn-primary">DELETE</button>-->
+
         
-        <a href="/user/projects"><button type="submit" class="btn btn-primary">Back</button></a>
         
+        <a href="/user/projects"><button class="btn btn-primary">Back</button></a>
     </div>
 
 

@@ -29,11 +29,11 @@ app.use(session({
 	}
 }));
 
-
+// TO DO: FIX EVERY DELETE OPERATION, USE TRIGGER OR DO A MANUAL DELETION OF EVERY RELATIONAL INTEGRITY INSIDE A STORED PROCEDURE FOR DELETING AN ENTITY
 
 require("./routes/router")(app);
 
-app.get("/", async function(req, res) {
+app.get("/", function(req, res) {
 	if (req.session.token) {
 		res.render("index.ejs", { logged : true })
 	}

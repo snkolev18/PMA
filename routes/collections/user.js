@@ -30,6 +30,18 @@ router.get("/project/create", isAuthenticated, async function(req, res) {
 	res.render("createProject.ejs");
 });
 
+router.post("/project/create", isAuthenticated, async function(req, res) {
+	const project = req.body;
+	console.log(project);
+	const sc = await projects.create(project, req.session.token.id);
+	if (sc) {
+		res.send("There is already a project with this name");
+		res.end();
+		return;
+	}
+	res.redirect("/user/projects");
+});
+
 router.get("/project/edit/:id", isAuthenticated, async function(req, res) {
 	const id = req.params.id;
 
@@ -73,6 +85,36 @@ router.post("/project/edit/", isAuthenticated, async function(req, res) {
 		res.end();
 		return;
 	}
+
+	res.redirect("/user/projects");
+});
+
+
+router.post("/project/assign", isAuthenticated, async function(req, res) {
+	const data = req.body;
+	const team = await teams.getIdByTitle(data.title);
+	const checkProjectCreator = await projects.getProjectById(data.projectId);
+	if (req.session.token.id !== checkProjectCreator[0].CreatorId) {
+		res.send("That's not your project");
+		res.end();
+		return;
+	}
+
+	// Logs : An array with one object and propery id => e.x [ { Id: 1 } ]
+	console.log(team);
+	if (team === undefined) {
+		res.send("Non existing team");
+		res.end();
+		return;
+	}
+	console.log(data);
+	const result = await projects.assignProjectToTeam(data.projectId, team[0].Id);
+	if (result) {
+		res.send("This team is already assigned to this project")
+		res.send();
+		return;
+	}
+	console.log(result);
 
 	res.redirect("/user/projects");
 });
