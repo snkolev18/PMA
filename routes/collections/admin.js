@@ -119,6 +119,24 @@ router.get("/teams", isAdmin, async function(req, res) {
 	});
 });
 
+router.get("/teams/create", isAdmin, function(req, res) {
+	res.render("createTeam.ejs");
+});
+
+router.post("/team/create", isAdmin, async function(req, res) {
+	const team = req.body;
+
+	const sc = await teams.create(team, req.session.token.id);
+	
+	if (sc) {
+		res.send("There is already a team with this title");
+		res.end();
+		return;
+	}
+
+	res.redirect("/admin/teams");
+});
+
 router.get("/teams/edit/:id", isAdmin, async function(req, res) {
 	const id = req.params.id;
 

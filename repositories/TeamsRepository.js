@@ -10,17 +10,18 @@ class TeamsRepository {
         console.info("Creating instance of TeamsRepository");
     }
 
-    async create(team) {
+    async create(team, creatorId) {
         try {
             const result = await this.#teams.request()
                 .input("Title", NVarChar, team.title)
                 .input("Description", NVarChar, team.description)
-                .input("CreatorId", NVarChar, team.creatorId)
+                .input("CreatorId", NVarChar, creatorId)
                 .execute("CreateTeam")
             console.log(`Created new team ${team.title}`);
         }
         catch(err) {
             console.error(err);
+            return 31;
         }
     }
 
