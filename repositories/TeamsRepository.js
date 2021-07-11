@@ -100,7 +100,7 @@ class TeamsRepository {
 
     async getIdByTitle(title) {
         try {
-            const result = await this.#teams.request().query`SELECT Id FROM Teams WHERE Title = ${title}`;
+            const result = await this.#teams.request().query`SELECT Id FROM Teams WHERE Title = ${title} AND IsDeleted = 0`;
             return result.recordset;
         }
         catch(err) {

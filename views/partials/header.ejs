@@ -19,9 +19,14 @@
           <a class="nav-link" href="/login">Log in</a>
         <% } %>
       </li>
+      <% if (logged) { %>
       <li class="nav-item">
-        <a class="nav-link" href="/user/projects">Projects Management</a>
+            <a class="nav-link" href="/user/projects">Projects Management</a>
       </li>
+      <li class="nav-item">
+            <a class="nav-link" href="/user/tasks">Tasks Management</a>
+      </li>
+      <% } %>
     </ul>
   </div>
 </div>

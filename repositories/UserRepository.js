@@ -11,7 +11,7 @@ class UserRepository {
 
     async getAll() {
         try {
-            const result = await this.#users.request().query("SELECT Id, Username, Firstname, Lastname, DateOfCreation FROM Users");
+            const result = await this.#users.request().query("SELECT Id, Username, Firstname, Lastname, DateOfCreation FROM Users WHERE IsDeleted = 0");
             return result.recordset;
         }
         catch (err) {
@@ -62,7 +62,7 @@ class UserRepository {
 
     async getSaltByUsername(username) {
         try {
-            const salt = await this.#users.request().query`SELECT Salt from Users WHERE Username = ${username}`;
+            const salt = await this.#users.request().query`SELECT Salt from Users WHERE Username = ${username} AND IsDeleted = 0`;
             return salt.recordset[0];
         }
         catch (err) {
@@ -73,7 +73,7 @@ class UserRepository {
 
     async getIdByUsername(username) {
         try {
-            const salt = await this.#users.request().query`SELECT Id from Users WHERE Username = ${username}`;
+            const salt = await this.#users.request().query`SELECT Id from Users WHERE Username = ${username} AND IsDeleted = 0`;
             return salt.recordset[0];
         }
         catch (err) {
@@ -98,7 +98,7 @@ class UserRepository {
 
     async getUserById(id) {
         try {
-            const result = await this.#users.request().query`SELECT Id, Username, Firstname, Lastname, DateOfCreation FROM Users WHERE Id = ${id}`;
+            const result = await this.#users.request().query`SELECT Id, Username, Firstname, Lastname, DateOfCreation, IsDeleted FROM Users WHERE Id = ${id}`;
             return result.recordset;
         }
         catch (err) {

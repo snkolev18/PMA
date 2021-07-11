@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link href="/styles/table.css" rel="stylesheet">
+</head>
+<body>
+<div class="container-xl">
+    <div class="table-responsive">
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-8"><h2 style="text-align: center;"><b>Your tasks</b></h2></div>
+                </div>
+            </div>
+            <table class="table table-striped table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Assignee</th>   
+                        <th>Date of creation</th>
+                        <th>Last modified by</i></th>
+                        <th>Date of last change</th>
+                        <th>Options</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <% tasks.filter(task => task.AuthorId === currentUserId).map(task => { %>
+                    <tr>
+                        <td><%= task.Id %></td>
+                        <td><%= task.Title %></td>
+                        <td><%= task.Description %></td>
+                        <td><%= task.AssigneeUsername %></td>
+                        <td><%= task.DateOfCreation.toString().substring(0, 23) %></td>
+                        <td>last mod by </td>
+                        <td>2021-07-07</td>
+                        <td>
+                            <a href="#" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
+                        </td>
+                    </tr>
+                <% }) %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <a href="/"><button class="w-100 btn btn-lg btn-primary" type="submit">Back</button></a><br><br>
+    <a href="#"><button class="w-100 btn btn-lg btn-primary" type="submit">Create</button></a>
+</div>   
+</body>
+</html>

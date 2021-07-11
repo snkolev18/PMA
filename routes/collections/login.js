@@ -57,8 +57,10 @@ router.post("/", async function(req, res) {
 			return;
 		}
 	}
-
-	console.log(req.session.token);
+	else {
+		console.log(req.session.token);
+		res.send("Incorrect username or password");
+	}
 
 });
 

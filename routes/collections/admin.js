@@ -58,11 +58,16 @@ router.get("/users/edit/:id", isAdmin, async function(req, res) {
 	}
 
 	const userExistence = await users.getUserById(id);
-
 	// Logs : Empty array => []
 	console.log(userExistence);
 	if(userExistence.length === 0) {
 		res.status(404).send("Error appeared");
+		return;
+	}
+	console.log(userExistence);
+	if(userExistence[0].IsDeleted) {
+		res.status(403).send("This user doesn't exist");
+		res.end();
 		return;
 	}
 
@@ -83,6 +88,12 @@ router.post("/users/delete", isAdmin, async function(req, res) {
 		return;
 	}
 
+	if(userForDeletion[0].IsDeleted) {
+		res.status(403).send("This user doesn't exist");
+		res.end();
+		return;
+	}
+
 	console.log(userForDeletion);
 
 	const result = await users.delete(id);
@@ -93,6 +104,10 @@ router.post("/users/delete", isAdmin, async function(req, res) {
 router.post("/users/edit/", isAdmin, async function(req, res) {
 	console.log(req.body);
 	const newUserCredentials = req.body;
+
+
+	// TO DO: Check if the user is deleted
+
 
 	const salt = await generateSalt();
 	const hashed = await hashPassword(newUserCredentials.password, salt);
@@ -200,7 +215,7 @@ router.post("/teams/delete", isAdmin, async function(req, res) {
 
 router.get("/teams/users", isAdmin, async function(req, res) {
 	const result = await teams.getTeamsWithUsers();
-	console.log(_users_);
+	console.log(result);
 	res.render("usersTeams.ejs", {
 		teamsWithUsers: result
 	});

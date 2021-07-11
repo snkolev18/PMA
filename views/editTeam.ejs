@@ -83,11 +83,13 @@
                         <input readonly name="teamId" id="id" value="<%= id %>" required type="hidden"><br>
                     </div>
                 </div>
+            </form>
         </div>
         <form action="/admin/teams/delete" method="POST">
             <input readonly name="id" id="id" value="<%= id %>" required type="hidden"><br>
             <button type="submit" class="btn btn-primary">DELETE</button>
         </form>
+        <br>
         <a href="/admin/teams"><button type="submit" class="btn btn-primary">Back</button></a>
     </div>
 

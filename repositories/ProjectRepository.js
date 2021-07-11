@@ -41,6 +41,19 @@ class ProjectRepository {
         }
     }
 
+    async delete(id) {
+        try {
+            const result = await this.#projects.request()
+                .input("Id", Int, id)
+                .execute("DeleteProject");
+            console.log(result);
+        }
+        catch(err) {
+            console.error(err);
+            return 46;
+        }
+    }
+
     async assignProjectToTeam(projectId, teamId) {
         try {
             const result = await this.#projects.request()
