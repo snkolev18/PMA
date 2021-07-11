@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
+    rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link href="/styles/profile.css" rel="stylesheet">
+</head>
+<body>
+<%- include ("partials/header.ejs", {logged: logged}) %>
+<div class="container emp-profile">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="profile-img">
+                <img src="https://lh3.googleusercontent.com/proxy/L-m4ZG04m4JQFEwIR0Mih0jcqpNxFFnNNJ_B7H4zODqRW6oL2aZUsNIdwXLjh8aenX0NIKXwqgWf-W42_oyc82xOVw20hE1PBIWizU0QpihwlXuGxJq9ch56ARu6wyI-IEXnOD7fisT1GA" alt=""/>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="profile-head">
+                <h5><%= profile.Firstname %> <%= profile.Lastname %></h5>
+                <h6>You have the role of <b><%= role %></b></h6>
+            </div>
+        </div>
+    </div>
+<div class="bs-example">
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a href="#projects" class="nav-link active" data-toggle="tab">Projects</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tasks" class="nav-link" data-toggle="tab">Tasks</a>
+        </li>
+        <li class="nav-item">
+            <a href="#assigned-tasks" class="nav-link" data-toggle="tab">Assigned tasks</a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane fade show active" id="projects">
+            <h4 class="mt-2">Here are projects created by you or assigned to a team you are member of</h4>
+            <%- include("partials/projects.ejs", {projects: projects}) %>
+        </div>
+        <div class="tab-pane fade" id="tasks">
+            <h4 class="mt-2">Tasks created by you or assigned to a team you are member of</h4>
+            <%- include("partials/tasks.ejs", {tasks: tasks}) %>
+        </div>
+        <div class="tab-pane fade" id="assigned-tasks">
+            <h4 class="mt-2">All tasks you have to do</h4>
+            <%- include("partials/assignedTasks.ejs", {assignedTasks: assignedTasks}) %>
+        </div>
+    </div>
+</div>        
+</div>
+</body>
+</html>

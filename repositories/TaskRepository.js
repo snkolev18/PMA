@@ -19,6 +19,16 @@ class TaskRepository {
 
     async getAll() {
         try {
+            const result = await this.#tasks.request().query("SELECT * FROM vAllTasks");
+            return result.recordset;
+        }
+        catch(err) {
+            console.error(err);
+        }
+    }
+
+    async getAllWithTeams() {
+        try {
             const result = await this.#tasks.request().query("SELECT * FROM vTasksWithTeams");
             return result.recordset;
         }

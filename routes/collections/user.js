@@ -19,6 +19,35 @@ let tasks = undefined;
 
 module.exports = router;
 
+
+router.get("/profile", isAuthenticated, async function(req, res) {
+	const profile = await users.getUserById(req.session.token.id);
+	const role = req.session.token.roleId === 2 ? "Admin" : "User";
+	console.log("AAAA")
+	console.log(profile);
+
+	let tempProjects = await projects.getAll();
+	const _projects_ = tempProjects.filter(project => project.CreatorId === req.session.token.id);
+	
+	const tempTasks = await tasks.getAllWithTeams();
+	console.log(tempTasks);
+	console.log("!!!==================!!!")
+	const _tasks_ = tempTasks.filter(task => task.AuthorId === req.session.token.id);
+	console.log(_tasks_)
+
+	const tempAssignedTasks = await tasks.getAll();
+	const assignedTasks = tempAssignedTasks.filter(assignedTask => assignedTask.AssigneeUsername === req.session.token.username);
+
+	res.render("profile.ejs", {
+		profile: profile[0],
+		role: role,
+		projects: _projects_,
+		tasks: _tasks_,
+		assignedTasks: assignedTasks,
+		logged: true
+	});
+});
+
 //							PROJECTS
 
 router.get("/projects", isAuthenticated, async function(req, res) {

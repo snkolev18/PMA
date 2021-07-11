@@ -1,0 +1,30 @@
+<div class="container-xl">
+    <div class="table-responsive">
+        <div class="table-wrapper">
+            <table class="table table-striped table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Options</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <% projects.map(project => { %>
+                    <tr>
+                        <td><%= project.Id %></td>
+                        <td><%= project.Title %></td>
+                        <td><%= project.Description %></td>
+                        <td>
+                            <a href="/user/project/edit/<%= project.Id %>" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
+                        </td>
+                    </tr>
+                <% }) %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br><br>
+    <a href="/user/project/create"><button class="w-100 btn btn-lg btn-primary" type="submit">Create</button></a>
+</div>
