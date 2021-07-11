@@ -14,11 +14,11 @@ class TaskRepository {
     // async create()
     async create(task, authorId, assigneeId, projectId) {
         try {
-            const result = this.#tasks.request().query()
+            const result = await this.#tasks.request()
                 .input("ProjectId", Int, projectId)
                 .input("AuthorId", Int, authorId)
-                .input("Title", Int, task.title)
-                .input("Description", Int, task.description)
+                .input("Title", NVarChar, task.title)
+                .input("Description", NVarChar, task.description)
                 .input("Status", Int, 1)
                 .input("AssigneeId", Int, assigneeId)
                 .execute("CreateTask")

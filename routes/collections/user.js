@@ -187,6 +187,36 @@ router.get("/tasks", isAuthenticated, async function(req, res) {
 	})
 });
 
+router.post("/task/create", isAuthenticated, async function(req, res) {
+	const task = req.body;
+	const assigneeExistenceId = await users.getIdByUsername(task.assigneeUsername);
+	if(assigneeExistenceId === undefined) {
+		res.send("This user doesn't exist");
+		res.end();
+		return;
+	}
+	if(isNaN(task.projectId)) {
+		res.send("Invalid project id");
+		res.end();
+		return;
+	}
+	const projectExistence = await projects.getProjectById(task.projectId);
+	if (projectExistence[0] === undefined) {
+		res.send("This project doesn't exist");
+		res.end();
+		return;
+	}
+
+	const sc = await tasks.create(task, req.session.token.id, assigneeExistenceId, task.projectId);
+	if(sc) {
+		res.send("There is already a task with this title");
+		res.end();
+		return;
+	}
+
+	res.redirect(`/user/project/edit/${task.projectId}`);
+});
+
 
 
 // This callbacks fire immediately so it can get the instance from the singleton class and then to make a single connection to the DB in the constructor of UsersRepository, TeamsRepository
