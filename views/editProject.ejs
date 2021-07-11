@@ -22,6 +22,7 @@
     </div>
         <div class="col-lg-8 push-lg-4 personal-info">
             <form action="/user/project/edit/" method="POST">
+                <h1>Update information about this project</h1>
                 <div class="form-group row">
                     <label class="col-lg-3 col-form-label form-control-label">New Title</label>
                     <div class="col-lg-9">
@@ -80,9 +81,38 @@
                     <div class="col-lg-9">
                         <input type="reset" class="btn btn-secondary" value="Cancel" />
                         <button type="submit" class="btn btn-primary">Assign</button>
-                        <input readonly name="projectId" id="id" value="<%= id %>" required type="hidden"><br>
+                        <input readonly name="projectId" id="id" value="<%= id %>" required type="hidden"><br><br>
                     </div>
                 </div>
+            </form>
+            <form action="/user/task/create" method="POST">
+                <div class="form-group row">
+                    <h1>New Task for this project</h1>
+                    <label class="col-lg-3 col-form-label form-control-label">Task title</label>
+                    <div class="col-lg-9">
+                        <input class="form-control" type="text" value="" name="title"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label form-control-label">Task description</label>
+                    <div class="col-lg-9">
+                        <input class="form-control" type="text" value="" placeholder="Short description of the task and its purpose" name="description"/>
+                    </div> 
+                </div>
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label form-control-label">Assignee</label>
+                    <div class="col-lg-9">
+                        <input class="form-control" type="text" value="" placeholder="Username of the person, that you want to do this task" name="assigneeUsername"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label form-control-label"></label>
+                    <div class="col-lg-9">
+                        <input type="reset" class="btn btn-secondary" value="Cancel" />
+                        <button type="submit" class="btn btn-primary">Create task</button>
+                    </div>
+                </div>
+                <input readonly name="projectId" id="id" value="<%= id %>" required type="hidden"><br>
             </form>
         </div>
         
@@ -90,7 +120,7 @@
             <input readonly name="id" id="id" value="<%= id %>" required type="hidden"><br>
         <button type="submit" class="btn btn-primary">DELETE</button>
         </form>
-        
+        <br>
         
         <a href="/user/projects"><button class="btn btn-primary">Back</button></a>
     </div>

@@ -12,6 +12,23 @@ class TaskRepository {
 
     // TO DO: Essential functionality:
     // async create()
+    async create(task, authorId, assigneeId, projectId) {
+        try {
+            const result = this.#tasks.request().query()
+                .input("ProjectId", Int, projectId)
+                .input("AuthorId", Int, authorId)
+                .input("Title", Int, task.title)
+                .input("Description", Int, task.description)
+                .input("Status", Int, 1)
+                .input("AssigneeId", Int, assigneeId)
+                .execute("CreateTask")
+            console.log(result);
+        }
+        catch(err) {
+            console.error(err);
+            return 55;
+        }
+    }
 
     // async update()
 
