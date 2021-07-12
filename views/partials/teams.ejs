@@ -1,0 +1,38 @@
+<div class="container-xl">
+    <div class="table-responsive">
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-8"><h2 style="text-align: center;"><b>Teams</b></h2></div>
+                </div>
+            </div>
+            <table class="table table-striped table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Your username</th>
+                        <th>Options</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <% teams.map(team => { %>
+                    <tr>
+                        <td><%= team.TeamId %></td>
+                        <td><%= team.Title %></td>
+                        <td><%= team.Description %></td>
+                        <td><%= team.Username %></td>
+                        <td>
+                            <a href="/admin/teams/edit/<%= team.Id %>" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
+                            <a href="#" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xf1c5;</i></a>
+                        </td>
+                    </tr>
+                <% }) %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <a href="/admin"><button class="w-100 btn btn-lg btn-primary" type="submit">Back</button></a><br><br>
+    <a href="/admin/teams/create"><button class="w-100 btn btn-lg btn-primary" type="submit">Create</button></a>
+</div>

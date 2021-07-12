@@ -29,7 +29,7 @@ router.post("/register", isAdmin, async function(req, res) {
 	user.salt = salt;
 	user.hash = hashed;
 	console.log(user);
-	const sc = await users.register(user, req.session.token.id);
+	const sc = await users.register(user, 8);
 	console.log(sc);
 	if (sc) {
 		res.send("Veche ima takuv username");
@@ -108,6 +108,12 @@ router.post("/users/edit/", isAdmin, async function(req, res) {
 
 	// TO DO: Check if the user is deleted
 
+	const userExistence = await users.getUserById(newUserCredentials.id);
+	if(userExistence.IsDeleted) {
+		res.send("This user doesn't exist");
+		res.end();
+		return;
+	}
 
 	const salt = await generateSalt();
 	const hashed = await hashPassword(newUserCredentials.password, salt);

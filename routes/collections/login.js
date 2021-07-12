@@ -24,6 +24,7 @@ router.post("/", async function(req, res) {
 	const password = credentials.password.toString();
 	const salt = await users.getSaltByUsername(username);
 	// Same as salt === undefined
+
 	if (!salt) {
 		res.send("Incorrect credentials");
 		res.end();
@@ -35,7 +36,9 @@ router.post("/", async function(req, res) {
 
 	const passwordForVerification = await hashPassword(password, salt.Salt);
 	const result = await users.login(username, passwordForVerification);
-	
+
+	console.log(result);
+
 	if (result.idVerified) {
 		req.session.token = {
 			id: result.idVerified,

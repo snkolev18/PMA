@@ -41,6 +41,9 @@
         <li class="nav-item">
             <a href="#assigned-tasks" class="nav-link" data-toggle="tab">Assigned tasks</a>
         </li>
+        <li class="nav-item">
+            <a href="#teams" class="nav-link" data-toggle="tab">Assigned tasks</a>
+        </li>
     </ul>
     <div class="tab-content">
         <div class="tab-pane fade show active" id="projects">
@@ -54,6 +57,10 @@
         <div class="tab-pane fade" id="assigned-tasks">
             <h4 class="mt-2">All tasks you have to do</h4>
             <%- include("partials/assignedTasks.ejs", {assignedTasks: assignedTasks}) %>
+        </div>
+        <div class="tab-pane fade" id="teams">
+            <h4 class="mt-2">Here are the teams you are member of</h4>
+            <%- include("partials/teams.ejs", {teams: teams}) %>
         </div>
     </div>
 </div>        

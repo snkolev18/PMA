@@ -38,13 +38,41 @@ router.get("/profile", isAuthenticated, async function(req, res) {
 	const tempAssignedTasks = await tasks.getAll();
 	const assignedTasks = tempAssignedTasks.filter(assignedTask => assignedTask.AssigneeUsername === req.session.token.username);
 
+	const tempTeams = await teams.getTeamsWithUsers();
+	const _teams_ = tempTeams.filter(team => team.Username === req.session.token.username);
+	console.log(_teams_);
 	res.render("profile.ejs", {
 		profile: profile[0],
 		role: role,
 		projects: _projects_,
 		tasks: _tasks_,
 		assignedTasks: assignedTasks,
+		teams: _teams_,
 		logged: true
+	});
+});
+
+router.get("/profile/view/team/:id", isAuthenticated, async function(req, res) {
+	const id = req.params.id;
+	if (isNaN(id)) {
+		res.send("Invalid ID")
+		res.end();
+		return;
+	}
+
+	const teamExistence = await teams.getTeamById(id);
+	// Logs : Empty array => []
+
+	// Crashes on a non existing ID of a team
+	console.log(teamExistence);
+	if(teamExistence.length === 0) {
+		res.status(404).send("Error appeared");
+		return;
+	}
+
+
+	res.render("viewTeam.ejs", {
+		team: teamExistence[0]
 	});
 });
 
@@ -216,7 +244,6 @@ router.post("/task/create", isAuthenticated, async function(req, res) {
 
 	res.redirect(`/user/project/edit/${task.projectId}`);
 });
-
 
 
 // This callbacks fire immediately so it can get the instance from the singleton class and then to make a single connection to the DB in the constructor of UsersRepository, TeamsRepository
