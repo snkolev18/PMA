@@ -22,6 +22,7 @@
     "dotenv": "^10.0.0",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
+    "express-limiter": "^1.6.1",
     "express-session": "^1.17.2",
     "msnodesqlv8": "^2.2.0",
     "mssql": "^7.1.3"

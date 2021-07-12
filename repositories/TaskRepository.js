@@ -54,6 +54,16 @@ class TaskRepository {
         }
     }
 
+    async getAllWithTeamById(id) {
+        try {
+            const result = await this.#tasks.request().query`SELECT * FROM vTasksWithTeams WHERE TeamId = ${id}`;
+            return result.recordset;
+        }
+        catch(err) {
+            console.error(err);
+        }
+    }
+
 
     #tasks
 }

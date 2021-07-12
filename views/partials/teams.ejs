@@ -24,8 +24,7 @@
                         <td><%= team.Description %></td>
                         <td><%= team.Username %></td>
                         <td>
-                            <a href="/admin/teams/edit/<%= team.Id %>" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-                            <a href="#" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xf1c5;</i></a>
+                            <a href="/user/profile/view/team/<%= team.TeamId %>" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xf1c5;</i></a>
                         </td>
                     </tr>
                 <% }) %>
@@ -33,6 +32,4 @@
             </table>
         </div>
     </div>
-    <a href="/admin"><button class="w-100 btn btn-lg btn-primary" type="submit">Back</button></a><br><br>
-    <a href="/admin/teams/create"><button class="w-100 btn btn-lg btn-primary" type="submit">Create</button></a>
 </div>

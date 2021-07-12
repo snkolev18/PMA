@@ -60,9 +60,8 @@ router.get("/profile/view/team/:id", isAuthenticated, async function(req, res) {
 		return;
 	}
 
-	const teamExistence = await teams.getTeamById(id);
+	const teamExistence = await teams.getTeamWithUsersById(id);
 	// Logs : Empty array => []
-
 	// Crashes on a non existing ID of a team
 	console.log(teamExistence);
 	if(teamExistence.length === 0) {
@@ -70,9 +69,18 @@ router.get("/profile/view/team/:id", isAuthenticated, async function(req, res) {
 		return;
 	}
 
+	if(teamExistence.Username !== req.session.token.username) {
+		res.send("Not authorized to view that resource");
+		res.end();
+		return;
+	}
 
+	const tasksExistence = await tasks.getAllWithTeamById(id);
+	const projectsExistence = await projects.getAllWithTeamById(id);
 	res.render("viewTeam.ejs", {
-		team: teamExistence[0]
+		team: teamExistence,
+		tasks: tasksExistence,
+		projects: projectsExistence
 	});
 });
 

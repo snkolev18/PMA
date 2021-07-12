@@ -78,6 +78,16 @@ class TeamsRepository {
         }
     }
 
+    async getTeamWithUsersById(id) {
+        try {
+            const result = await this.#teams.request().query`SELECT * FROM vTeamsWithUsers WHERE TeamId = ${id}`;
+            return result.recordset[0];
+        }
+        catch(err) {
+            console.log(err);
+        }
+    }
+
     async getAll() {
         try {
             const result = await this.#teams.request().query("SELECT * FROM vAllTeams");

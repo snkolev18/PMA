@@ -99,6 +99,16 @@ class ProjectRepository {
         }
     }
 
+    async getAllWithTeamById(id) {
+        try {
+            const result = await this.#projects.request().query`SELECT * FROM vProjectsWithTeams WHERE TeamId = ${id}`;
+            return result.recordset;
+        }
+        catch(err) {
+            console.error(err);
+        }
+    }
+
     // Private members
     #projects
     

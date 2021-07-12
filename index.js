@@ -35,10 +35,17 @@ require("./routes/router")(app);
 
 app.get("/", function(req, res) {
 	if (req.session.token) {
-		res.render("index.ejs", { logged : true })
+		let root = req.session.token.roleId === 2 ? true : false; 
+		res.render("index.ejs", { 
+			logged: true,
+			root: root 
+		})
 	}
 	else {
-		res.render("index.ejs", { logged : false })
+		res.render("index.ejs", { 
+			logged : false,
+			root: false
+		})
 	}
 })
 
@@ -53,6 +60,10 @@ app.get("/adminOnlyRoute", isAdmin, function(req, res) {
 app.get("/logout", isAuthenticated, function(req, res) {
 	req.session.token = null;
 	res.send("You are being logged out");
+});
+
+app.get("*", function(req, res) {
+	res.status(404).render("errorPage.ejs");
 });
 
 app.listen(PORT, async () => {
