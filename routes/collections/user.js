@@ -126,7 +126,7 @@ router.get("/project/edit/:id", isAuthenticated, async function(req, res) {
 	const id = req.params.id;
 
 	if (isNaN(id)) {
-		res.send("Invalid ID")
+		res.status(400).render("errorPage.ejs", {statusCode: 400, errorMessage: "Invalid Id"});
 		res.end();
 		return;
 	}
@@ -136,12 +136,12 @@ router.get("/project/edit/:id", isAuthenticated, async function(req, res) {
 	// Logs : Empty array => []
 	console.log(projectExistence);
 	if(projectExistence.length === 0) {
-		res.status(404).send("Error appeared");
+		res.status(400).render("errorPage.ejs", {statusCode: 400, errorMessage: "Bad request"});
 		return;
 	}
 
 	if (projectExistence[0].CreatorId != req.session.token.id) {
-		res.send("Encountered an error");
+		res.status(403).render("errorPage.ejs", {statusCode: 403, errorMessage: "Forbidden"});
 		res.end();
 		return;
 	}
