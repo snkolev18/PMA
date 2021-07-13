@@ -69,6 +69,11 @@
                     </table>
                 </div>
             </div>
+            <% errors.map(error => { %>
+                 <div class="alert alert-danger" role="alert">
+                    <%= error.message %>
+                </div>
+            <% }) %>
             <form action="/user/project/assign" method="POST">
                 <div class="form-group row">
                     <label class="col-lg-3 col-form-label form-control-label">Assign a team to this project</label>

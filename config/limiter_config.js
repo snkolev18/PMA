@@ -6,9 +6,9 @@ function configureLimiter(maxRequests, perMinutes, statusCodeOnFail = 429) {
 		windowMs: perMinutes * 60 * 1000,
 		max: maxRequests,
 		handler: (req, res, next) => {
-			res.status(statusCodeOnFail).render("error-page.ejs", {
+			res.status(statusCodeOnFail).render("errorPage.ejs", {
 				statusCode: statusCodeOnFail,
-				message: "You have exceeded your requests"
+				errorMessage: "You have exceeded your requests"
 			});
 		}
 	});

@@ -10,7 +10,9 @@ const { TeamsRepository } = require("../../repositories/TeamsRepository");
 const { ProjectRepository } = require("../../repositories/ProjectRepository");
 const { TaskRepository } = require("../../repositories/TaskRepository");
 const { isAuthenticated } = require("../../middlewares/authentication");
+const { configureLimiter } = require("../../config/limiter_config");
 const { Router } = require("express");
+const { validateTPTCredentials } = require("../../lib/validations");
 
 let users = undefined;
 let teams = undefined;
@@ -36,7 +38,7 @@ router.get("/profile", isAuthenticated, async function(req, res) {
 	console.log(_tasks_)
 
 	const tempAssignedTasks = await tasks.getAll();
-	const assignedTasks = tempAssignedTasks.filter(assignedTask => assignedTask.AssigneeUsername === req.session.token.username);
+	const assignedTasks = tempAssignedTasks.filter(assignedTask => assignedTask.AssigneeUsername === req.session.token.username).filter(assignedTask => assignedTask.StatusName !== "Completed");
 
 	const tempTeams = await teams.getTeamsWithUsers();
 	const _teams_ = tempTeams.filter(team => team.Username === req.session.token.username);
@@ -107,23 +109,37 @@ router.get("/projects", isAuthenticated, async function(req, res) {
 });
 
 router.get("/project/create", isAuthenticated, async function(req, res) {
-	res.render("createProject.ejs");
+	const errors = req.session.errors;
+	if(errors) {
+		res.render("createProject.ejs", { errors: errors });
+	}
+	else {
+		res.render("createProject.ejs", { errors: [] });
+	}
 });
 
 router.post("/project/create", isAuthenticated, async function(req, res) {
 	const project = req.body;
 	console.log(project);
-	const sc = await projects.create(project, req.session.token.id);
-	if (sc) {
-		res.send("There is already a project with this name");
-		res.end();
-		return;
+	
+	let errors = validateTPTCredentials(project);
+	
+	if(errors.length) {
+		req.session.errors = errors;
 	}
-	res.redirect("/user/projects");
+	else {
+		req.session.errors = [];
+		const sc = await projects.create(project, req.session.token.id);
+		if (sc) {
+			req.session.errors.push({ message: "There is already a project with this name" });
+		}
+	}
+	res.redirect("/user/project/create");
 });
 
 router.get("/project/edit/:id", isAuthenticated, async function(req, res) {
 	const id = req.params.id;
+	const errors = req.session.errors;
 
 	if (isNaN(id)) {
 		res.status(400).render("errorPage.ejs", {statusCode: 400, errorMessage: "Invalid Id"});
@@ -132,7 +148,6 @@ router.get("/project/edit/:id", isAuthenticated, async function(req, res) {
 	}
 
 	const projectExistence = await projects.getProjectById(id);
-
 	// Logs : Empty array => []
 	console.log(projectExistence);
 	if(projectExistence.length === 0) {
@@ -147,15 +162,27 @@ router.get("/project/edit/:id", isAuthenticated, async function(req, res) {
 	}
 	// Returns array with an object so that why is the [0]
 	const _teams_ = await teams.getAll();
-	res.render("editProject.ejs", {
-		teams: _teams_,
-		id: id,
-		project: projectExistence[0]
-	})
+
+	if(errors) {
+		res.render("editProject.ejs", {
+			teams: _teams_,
+			id: id,
+			project: projectExistence[0],
+			errors: errors
+		})
+	}
+	else {
+		res.render("editProject.ejs", {
+			teams: _teams_,
+			id: id,
+			project: projectExistence[0],
+			errors: []
+		})
+	}
 
 });
 
-router.post("/project/edit/", isAuthenticated, async function(req, res) {
+router.post("/project/edit/", isAuthenticated, configureLimiter(5, 2), async function(req, res) {
 	console.info(`Receiving new project data: ${req.body}`);
 	const newProjectData = req.body;
 	console.log(newProjectData);
@@ -170,7 +197,7 @@ router.post("/project/edit/", isAuthenticated, async function(req, res) {
 });
 
 
-router.post("/project/delete", isAuthenticated, async function(req, res) {
+router.post("/project/delete", isAuthenticated, configureLimiter(3, 3), async function(req, res) {
 	console.info("Deleting project");
 
 	const id = req.body.id;
@@ -194,7 +221,7 @@ router.post("/project/delete", isAuthenticated, async function(req, res) {
 	res.redirect("/user/projects");
 });
 
-router.post("/project/assign", isAuthenticated, async function(req, res) {
+router.post("/project/assign", isAuthenticated, configureLimiter(10, 1), async function(req, res) {
 	const data = req.body;
 	const team = await teams.getIdByTitle(data.title);
 	const checkProjectCreator = await projects.getProjectById(data.projectId);
@@ -205,29 +232,27 @@ router.post("/project/assign", isAuthenticated, async function(req, res) {
 	}
 
 	// Logs : An array with one object and propery id => e.x [ { Id: 1 } ]
+	req.session.errors = [];
 	console.log(team);
 	if (team === undefined || team.length === 0) {
-		res.send("Non existing team");
-		res.end();
-		return;
+		req.session.errors.push({ message: "Non existing team" });
 	}
 
 	console.log(data);
 	const result = await projects.assignProjectToTeam(data.projectId, team[0].Id);
+	
 	if (result) {
-		res.send("This team is already assigned to this project")
-		res.send();
-		return;
+		req.session.errors.push({ message: "This team is already assigned to this project" })
 	}
 	console.log(result);
 
-	res.redirect("/user/projects");
+	res.redirect(`/user/project/edit/${data.projectId}`);
 });
 
 // 				##############################################
 
 
-router.get("/tasks", isAuthenticated, async function(req, res) {
+router.get("/tasks", isAuthenticated, configureLimiter(10, 2), async function(req, res) {
 	const _tasks_ = await tasks.getAll();
 	res.render("tasks.ejs", {
 		tasks: _tasks_,
@@ -235,67 +260,89 @@ router.get("/tasks", isAuthenticated, async function(req, res) {
 	})
 });
 
-router.get("/task/create", isAuthenticated, async function(req, res) {
+router.get("/task/create", isAuthenticated, configureLimiter(10, 2), async function(req, res) {
 	const _users_ = await users.getAll();
 	const _projects_ = await projects.getAll();
+
+	const errors = req.session.errors;
 	console.log(_projects_);
-	res.render("createTask.ejs", {
-		users: _users_,
-		projects: _projects_
-	});
+
+	if(errors) {
+		res.render("createTask.ejs", {
+			users: _users_,
+			projects: _projects_,
+			errors: errors
+		});
+	}
+	else {
+		res.render("createTask.ejs", {
+			users: _users_,
+			projects: _projects_,
+			errors: []
+		});
+	}
 });
 
-router.post("/task/create", isAuthenticated, async function(req, res) {
+router.post("/task/create", isAuthenticated, configureLimiter(5, 2), async function(req, res) {
 	const task = req.body;
 	console.log(task);
-	if(isNaN(task.assigneeId)) {
-		res.send("Invalid assignee id");
-		res.end();
-		return;
+	let errors = validateTPTCredentials(task);
+	if(errors.length) {
+		req.session.errors = errors;
 	}
-	const assigneeExistenceId = await users.getUserById(task.assigneeId);
-	console.log(assigneeExistenceId)
-	if(assigneeExistenceId === undefined) {
-		res.send("This user doesn't exist");
-		res.end();
-		return;
-	}
-	if(isNaN(task.projectId)) {
-		res.send("Invalid project id");
-		res.end();
-		return;
-	}
-	const projectExistence = await projects.getProjectById(task.projectId);
-	console.log(projectExistence);
-	if (projectExistence[0] === undefined) {
-		res.send("This project doesn't exist");
-		res.end();
-		return;
+	else {
+
+		req.session.errors = [];
+
+		if(isNaN(task.assigneeId)) {
+			req.session.errors.push({ message: "Invalid assignee id" });
+		}
+		const assigneeExistenceId = await users.getUserById(task.assigneeId);
+		console.log(assigneeExistenceId)
+		if(assigneeExistenceId === undefined) {
+			req.session.errors.push({ message: "This user doesn't exist" });
+		}
+		if(isNaN(task.projectId)) {
+			req.session.errors.push({ message: "Invalid project id" });
+		}
+		const projectExistence = await projects.getProjectById(task.projectId);
+		console.log(projectExistence);
+		if (projectExistence[0] === undefined) {
+			req.session.errors.push({ message: "This project doesn't exist" });
+		}
+
+		const sc = await tasks.create(task, req.session.token.id, task.assigneeId, task.projectId);
+		if(sc) {
+			req.session.errors.push({ message: "There is already a task with this title" });
+		}
 	}
 
-	const sc = await tasks.create(task, req.session.token.id, task.assigneeId, task.projectId);
-	if(sc) {
-		res.send("There is already a task with this title");
-		res.end();
-		return;
-	}
-
-	res.redirect("/user/profile");
+	res.redirect("/user/task/create");
 });
 
-router.post("/update/project/status", isAuthenticated, async function(req, res) {
+router.post("/update/project/status", isAuthenticated, configureLimiter(6, 2), async function(req, res) {
 	const data = req.body;
-	data.status = data.status.map(status => {
-		if(status === "Open this select menu") {
-			status = "1";
-		}
-		return status
-	})
-	console.log(data);
+	console.table(data);
+
+	if(data.status instanceof Array) {
+		data.status = data.status.map(status => {
+			if(status === "Open this select menu") {
+				status = "1";
+			}
+			return status
+		})
+		console.log(data);
 	
-	for(let i = 0; i < 3; i++) {
-		const sc = await tasks.updateStatus(data.id[i], data.status[i]);
-		console.log(sc);
+		for(let i = 0; i < data.status.length; i++) {
+			const sc = await tasks.updateStatus(data.id[i], data.status[i]);
+			console.log(sc);
+		}
+	}
+	else {
+		if(data.status === "Open this select menu") {
+			data.status = "1";
+		}
+		const sc = await tasks.updateStatus(data.id, data.status);
 	}
 	res.redirect("/user/profile");
 });
