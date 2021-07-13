@@ -9,6 +9,7 @@ const { UserRepository } = require("../../repositories/UserRepository");
 const { TeamsRepository } = require("../../repositories/TeamsRepository");
 const { isAdmin } = require("../../middlewares/authentication");
 const { generateSalt, hashPassword } = require("../../lib/hash");
+const { validateRegisterCredentials, validateTPTCredentials } = require("../../lib/validations");
 
 let users = undefined;
 let teams = undefined;
@@ -19,7 +20,17 @@ router.get("/", isAdmin, function(req, res) {
 
 
 router.get("/register", isAdmin, function(req, res) {
-	res.render("register.ejs")
+	const errors = req.session.errors;
+	if(errors) {
+		res.render("register.ejs", {
+			errors: errors
+		})
+	}
+	else {
+		res.render("register.ejs", {
+			errors: []
+		})
+	}
 });
 
 router.post("/register", isAdmin, async function(req, res) {
@@ -29,14 +40,20 @@ router.post("/register", isAdmin, async function(req, res) {
 	user.salt = salt;
 	user.hash = hashed;
 	console.log(user);
-	const sc = await users.register(user, 8);
-	console.log(sc);
-	if (sc) {
-		res.send("Veche ima takuv username");
+	let errors = validateRegisterCredentials(user);
+	if (errors.length) {
+		req.session.errors = errors;
 	}
 	else {
-		res.send("Dobre si");
+		req.session.errors = [];
+		const sc = await users.register(user, 8);
+		console.log(sc);
+		if(sc) {
+			console.log("Vlizam")
+			req.session.errors.push({ message: "Incorrect username" });
+		}
 	}
+	res.redirect("/admin/register");
 });
 
 router.get("/users", isAdmin, async function(req, res) {
@@ -49,7 +66,7 @@ router.get("/users", isAdmin, async function(req, res) {
 
 router.get("/users/edit/:id", isAdmin, async function(req, res) {
 	const id = req.params.id;
-
+	const errors = req.session.errors;
 
 	if (isNaN(id)) {
 		res.send("Invalid ID")
@@ -61,20 +78,30 @@ router.get("/users/edit/:id", isAdmin, async function(req, res) {
 	// Logs : Empty array => []
 	console.log(userExistence);
 	if(userExistence.length === 0) {
-		res.status(404).send("Error appeared");
+		res.status(404).render("errorPage.ejs", {statusCode: 404, errorMessage: "Error appeared"});
 		return;
 	}
 	console.log(userExistence);
 	if(userExistence[0].IsDeleted) {
-		res.status(403).send("This user doesn't exist");
+		res.status(404).render("errorPage.ejs", {statusCode: 404, errorMessage: "This user doesn't exist"});
 		res.end();
 		return;
 	}
 
-	res.render("editUser.ejs", {
-		id: req.params.id,
-		user: userExistence[0]
-	});
+	if(errors) {
+		res.render("editUser.ejs", {
+			id: req.params.id,
+			user: userExistence[0],
+			errors: errors
+		});
+	}
+	else {
+		res.render("editUser.ejs", {
+			id: req.params.id,
+			user: userExistence[0],
+			errors: []
+		});
+	}
 });
 
 router.post("/users/delete", isAdmin, async function(req, res) {
@@ -84,12 +111,12 @@ router.post("/users/delete", isAdmin, async function(req, res) {
 	const id = req.body.id;
 	const userForDeletion = await users.getUserById(id);
 	if(!userForDeletion) {
-		res.status(404).send("Error appeared");
+		res.status(404).render("errorPage.ejs", {statusCode: 404, errorMessage: "Error appeared"});
 		return;
 	}
 
 	if(userForDeletion[0].IsDeleted) {
-		res.status(403).send("This user doesn't exist");
+		res.status(404).render("errorPage.ejs", {statusCode: 404, errorMessage: "This user doesn't exist"});
 		res.end();
 		return;
 	}
@@ -107,28 +134,33 @@ router.post("/users/edit/", isAdmin, async function(req, res) {
 
 
 	// TO DO: Check if the user is deleted
-
 	const userExistence = await users.getUserById(newUserCredentials.id);
 	if(userExistence.IsDeleted) {
 		res.send("This user doesn't exist");
 		res.end();
 		return;
 	}
+	
+	let errors = validateRegisterCredentials(newUserCredentials);
+	if(errors.length) {
+		console.log("Greshnik sum");
+		req.session.errors = errors
+	}
+	else {
+		req.session.errors = [];
+		const salt = await generateSalt();
+		const hashed = await hashPassword(newUserCredentials.password, salt);
 
-	const salt = await generateSalt();
-	const hashed = await hashPassword(newUserCredentials.password, salt);
+		newUserCredentials.salt = salt;
+		newUserCredentials.passwordHash = hashed;
 
-	newUserCredentials.salt = salt;
-	newUserCredentials.passwordHash = hashed;
-
-	const sc = await users.update(newUserCredentials, newUserCredentials.id, req.session.token.id);
-	if (sc) {
-		res.send("There is already a user with this username. Try again!");
-		res.end();
-		return;
+		const sc = await users.update(newUserCredentials, newUserCredentials.id, req.session.token.id);
+		if (sc) {
+			req.session.errors.push({ message: "There is already a user with this username. Try again!" });
+		}
 	}
 
-	res.redirect("/admin/users");
+	res.redirect(`/admin/users/edit/${newUserCredentials.id}`);
 });
 
 
@@ -141,28 +173,40 @@ router.get("/teams", isAdmin, async function(req, res) {
 });
 
 router.get("/teams/create", isAdmin, function(req, res) {
-	res.render("createTeam.ejs");
+	const errors = req.session.errors;
+	
+	if(errors) {
+		res.render("createTeam.ejs", { errors: errors });
+	}
+	else {
+		res.render("createTeam.ejs", { errors: [] });
+	}
 });
 
 router.post("/team/create", isAdmin, async function(req, res) {
 	const team = req.body;
 
-	const sc = await teams.create(team, req.session.token.id);
-	
-	if (sc) {
-		res.send("There is already a team with this title");
-		res.end();
-		return;
+	let errors = validateTPTCredentials(team);
+	if(errors.length) {
+		req.session.errors = errors;
 	}
-
-	res.redirect("/admin/teams");
+	else {
+		req.session.errors = [];
+		const sc = await teams.create(team, req.session.token.id);
+	
+		if (sc) {
+			req.session.errors.push({ message: "There is already a team with this title" });
+		}
+	}
+	res.redirect("/admin/teams/create");
 });
 
 router.get("/teams/edit/:id", isAdmin, async function(req, res) {
 	const id = req.params.id;
+	const errors = req.session.errors;
 
 	if (isNaN(id)) {
-		res.send("Invalid ID")
+		res.status(404).render("errorPage.ejs", {statusCode: 404, errorMessage: "Invalid Id"});
 		res.end();
 		return;
 	}
@@ -173,16 +217,26 @@ router.get("/teams/edit/:id", isAdmin, async function(req, res) {
 	// Crashes on a non existing ID of a team
 	console.log(teamExistence);
 	if(teamExistence.length === 0) {
-		res.status(404).send("Error appeared");
+		res.status(404).render("errorPage.ejs", {statusCode: 404, errorMessage: "Error appeared"});
 		return;
 	}
 	const _users_ = await users.getAll();
-
-	res.render("editTeam.ejs", {
-		id: req.params.id,
-		users: _users_,
-		team: teamExistence[0]
-	});
+	if(errors) {
+		res.render("editTeam.ejs", {
+			id: req.params.id,
+			users: _users_,
+			team: teamExistence[0],
+			errors: errors
+		});
+	}
+	else {
+		res.render("editTeam.ejs", {
+			id: req.params.id,
+			users: _users_,
+			team: teamExistence[0],
+			errors: []
+		});
+	}
 });
 
 router.post("/teams/edit", isAdmin, async function(req, res) {
@@ -192,14 +246,20 @@ router.post("/teams/edit", isAdmin, async function(req, res) {
 	console.log(`Receiving new team's data ${req.body}`);
 	const newTeamsData = req.body;
 
-	const sc = await teams.update(newTeamsData, newTeamsData.id, req.session.token.id);
-	if (sc) {
-		res.send("There is already a team with this title. Try again!");
-		res.end();
-		return;
+	let errors = validateTPTCredentials(newTeamsData);
+	
+	if(errors.length) {
+		req.session.errors = errors;
+	}
+	else {
+		req.session.errors = [];
+		const sc = await teams.update(newTeamsData, newTeamsData.id, req.session.token.id);
+		if (sc) {
+			req.session.errors.push({ message: "There is already a team with this title. Try again!" });
+		}
 	}
 
-	res.redirect("/admin/teams");
+	res.redirect(`/admin/teams/edit/${newTeamsData.id}`);
 });
 
 router.post("/teams/delete", isAdmin, async function(req, res) {
@@ -232,7 +292,7 @@ router.post("/teams/assign", isAdmin, async function(req, res) {
 	const user = await users.getIdByUsername(data.username);
 	console.log(user);
 	if (user === undefined) {
-		res.send("Non existing username");
+		res.status(404).render("errorPage.ejs", {statusCode: 404, errorMessage: "Non existing username"});
 		res.end();
 		return;
 	}

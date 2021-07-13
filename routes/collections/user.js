@@ -69,9 +69,10 @@ router.get("/profile/view/team/:id", isAuthenticated, async function(req, res) {
 	// Crashes on a non existing ID of a team
 	console.log(teamExistence);
 	if(teamExistence.length === 0) {
-		res.status(404).send("Error appeared");
+		res.status(400).render("errorPage.ejs", {statusCode: 400, errorMessage: "Bad request"});
 		return;
 	}
+	
 	let isAllowedToView = false;
 	teamExistence.map(team => {
 		if(team.Username === req.session.token.username) {
@@ -80,7 +81,7 @@ router.get("/profile/view/team/:id", isAuthenticated, async function(req, res) {
 	});
 
 	if(!isAllowedToView) {
-		res.send("Not authorized to view that resource");
+		res.status(401).render("errorPage.ejs", {statusCode: 401, errorMessage: "Not authorized to view that resource"});
 		res.end();
 		return;
 	}
@@ -177,12 +178,12 @@ router.post("/project/delete", isAuthenticated, async function(req, res) {
 	const projectForDelete = await projects.getProjectById(id)
 	console.log(projectForDelete);
 	if(projectForDelete.length === 0) {
-		res.status(404).send("Error appeared");
+		res.status(401).render("errorPage.ejs", {statusCode: 404, errorMessage: "Bad request"});
 		return;
 	}
 
 	if (projectForDelete[0].CreatorId != req.session.token.id) {
-		res.send("Encountered an error");
+		res.status(403).render("errorPage.ejs", {statusCode: 403, errorMessage: "Forbidden"});
 		res.end();
 		return;
 	}
@@ -198,7 +199,7 @@ router.post("/project/assign", isAuthenticated, async function(req, res) {
 	const team = await teams.getIdByTitle(data.title);
 	const checkProjectCreator = await projects.getProjectById(data.projectId);
 	if (req.session.token.id !== checkProjectCreator[0].CreatorId) {
-		res.send("That's not your project");
+		res.status(403).render("errorPage.ejs", {statusCode: 403, errorMessage: "Forbidden"});
 		res.end();
 		return;
 	}
