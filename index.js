@@ -59,7 +59,7 @@ app.get("/adminOnlyRoute", isAdmin, function(req, res) {
 
 app.get("/logout", isAuthenticated, function(req, res) {
 	req.session.token = null;
-	res.send("You are being logged out");
+	res.redirect("/");
 });
 
 app.get("*", function(req, res) {

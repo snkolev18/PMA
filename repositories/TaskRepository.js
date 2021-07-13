@@ -32,6 +32,20 @@ class TaskRepository {
 
     // async update()
 
+    async updateStatus(taskId, statusId) {
+        try {
+            const result = this.#tasks.request()
+                .input("TaskId", Int, taskId)
+                .input("StatusId", Int, statusId)
+                .execute("SetTaskStatus")
+            console.log(result);
+        }
+        catch(err) {
+            console.error(err);
+        }
+    }
+
+
     // async delete()
 
     async getAll() {

@@ -41,6 +41,9 @@ router.get("/profile", isAuthenticated, async function(req, res) {
 	const tempTeams = await teams.getTeamsWithUsers();
 	const _teams_ = tempTeams.filter(team => team.Username === req.session.token.username);
 	console.log(_teams_);
+
+	let root = req.session.token.roleId === 2 ? true : false;
+
 	res.render("profile.ejs", {
 		profile: profile[0],
 		role: role,
@@ -48,7 +51,8 @@ router.get("/profile", isAuthenticated, async function(req, res) {
 		tasks: _tasks_,
 		assignedTasks: assignedTasks,
 		teams: _teams_,
-		logged: true
+		logged: true,
+		root: root
 	});
 });
 
@@ -68,8 +72,14 @@ router.get("/profile/view/team/:id", isAuthenticated, async function(req, res) {
 		res.status(404).send("Error appeared");
 		return;
 	}
+	let isAllowedToView = false;
+	teamExistence.map(team => {
+		if(team.Username === req.session.token.username) {
+			isAllowedToView = true;
+		}
+	});
 
-	if(teamExistence.Username !== req.session.token.username) {
+	if(!isAllowedToView) {
 		res.send("Not authorized to view that resource");
 		res.end();
 		return;
@@ -78,7 +88,8 @@ router.get("/profile/view/team/:id", isAuthenticated, async function(req, res) {
 	const tasksExistence = await tasks.getAllWithTeamById(id);
 	const projectsExistence = await projects.getAllWithTeamById(id);
 	res.render("viewTeam.ejs", {
-		team: teamExistence,
+		// Doesn't matter which element of the array is returned, the information for the team is always the same except for the Username property
+		team: teamExistence[0],
 		tasks: tasksExistence,
 		projects: projectsExistence
 	});
@@ -223,9 +234,26 @@ router.get("/tasks", isAuthenticated, async function(req, res) {
 	})
 });
 
+router.get("/task/create", isAuthenticated, async function(req, res) {
+	const _users_ = await users.getAll();
+	const _projects_ = await projects.getAll();
+	console.log(_projects_);
+	res.render("createTask.ejs", {
+		users: _users_,
+		projects: _projects_
+	});
+});
+
 router.post("/task/create", isAuthenticated, async function(req, res) {
 	const task = req.body;
-	const assigneeExistenceId = await users.getIdByUsername(task.assigneeUsername);
+	console.log(task);
+	if(isNaN(task.assigneeId)) {
+		res.send("Invalid assignee id");
+		res.end();
+		return;
+	}
+	const assigneeExistenceId = await users.getUserById(task.assigneeId);
+	console.log(assigneeExistenceId)
 	if(assigneeExistenceId === undefined) {
 		res.send("This user doesn't exist");
 		res.end();
@@ -237,20 +265,38 @@ router.post("/task/create", isAuthenticated, async function(req, res) {
 		return;
 	}
 	const projectExistence = await projects.getProjectById(task.projectId);
+	console.log(projectExistence);
 	if (projectExistence[0] === undefined) {
 		res.send("This project doesn't exist");
 		res.end();
 		return;
 	}
 
-	const sc = await tasks.create(task, req.session.token.id, assigneeExistenceId, task.projectId);
+	const sc = await tasks.create(task, req.session.token.id, task.assigneeId, task.projectId);
 	if(sc) {
 		res.send("There is already a task with this title");
 		res.end();
 		return;
 	}
 
-	res.redirect(`/user/project/edit/${task.projectId}`);
+	res.redirect("/user/profile");
+});
+
+router.post("/update/project/status", isAuthenticated, async function(req, res) {
+	const data = req.body;
+	data.status = data.status.map(status => {
+		if(status === "Open this select menu") {
+			status = "1";
+		}
+		return status
+	})
+	console.log(data);
+	
+	for(let i = 0; i < 3; i++) {
+		const sc = await tasks.updateStatus(data.id[i], data.status[i]);
+		console.log(sc);
+	}
+	res.redirect("/user/profile");
 });
 
 

@@ -7,6 +7,9 @@
     <title>Document</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
     rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
     <link href="/styles/viewTeam.css" rel="stylesheet">
 </head>
 <body>
@@ -33,13 +36,53 @@
           <div class="card-body">
             <h5 class="card-title"><%= task.Title %></h5>
             <p class="card-text"><%= task.Description %></p>
-            <a href="#" class="btn btn-primary"><%= task.Status %></a>
+            <a href="#" class="btn btn-primary"><%= task.StatusName %></a>
           </div>
         </div>
       </div>
     </div>
     <% }) %>
-
+    
+    <% projects.map(project => { %> 
+    <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3 class="modal-title" id="exampleModalToggleLabel"><%= project.Title %></h3>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <h4>Creator: <%= project.CreatorUsername %></h4>
+            <p>Description: <%= project.Description %></p>
+          </div>
+          <% tasks.map(task => { %>
+          <div class="modal-footer">
+            <button class="btn btn-primary" data-bs-target="#<%= task.Title %>" data-bs-toggle="modal" data-bs-dismiss="modal"><%= task.Title %></button>
+          </div>
+          <% }) %>
+        </div>
+      </div>
+    </div>
+    <% tasks.map(task => { %>
+    <div class="modal fade" id="<%= task.Title %>" aria-hidden="true" aria-labelledby="<%= task.Title %>" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="<%= task.Title %>"><%= task.Title %></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            Description: <%= task.Description %>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-dismiss="modal">Back to first</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% }) %>
+    <a class="btn btn-primary" data-bs-toggle="modal" href="#exampleModalToggle" role="button"><%= project.Title %></a>
+    <% }) %>
 
     <h1>Projects</h1>
     <% projects.map(project => { %> 

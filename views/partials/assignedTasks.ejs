@@ -1,37 +1,42 @@
-<div class="container-xl">
-    <div class="table-responsive">
-        <div class="table-wrapper">
-            <table class="table table-striped table-hover table-bordered">
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Title</th>
-                        <th>Description</th>
-                        <th>Opened by</th>   
-                        <th>Date of creation</th>
-                        <th>Mark as</th>
-                    </tr>
-                </thead>
-                <tbody>
-                <% assignedTasks.map(assignedTask => { %>
-                    <tr>
-                        <td><%= assignedTask.Id %></td>
-                        <td><%= assignedTask.Title %></td>
-                        <td><%= assignedTask.Description %></td>
-                        <td><%= assignedTask.AuthorUsername %></td>
-                        <td><%= assignedTask.DateOfCreation.toString().substring(0, 24) %></td>
-                        <td>
-                            <select class="form-select form-select-sm" aria-label=".form-select-sm example">
-                                <option selected>Open this select menu</option>
-                                <option value="1">Pending</option>
-                                <option value="2">In progress</option>
-                                <option value="3">Completed</option>
-                            </select>
-                        </td>
-                    </tr>
-                <% }) %>
-                </tbody>
-            </table>
+<form action="/user/update/project/status" method="POST">
+    <div class="container-xl">
+        <div class="table-responsive">
+            <div class="table-wrapper">
+                <table class="table table-striped table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Title</th>
+                            <th>Description</th>
+                            <th>Opened by</th>   
+                            <th>Date of creation</th>
+                            <th>Mark as</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <% assignedTasks.map(assignedTask => { %>
+                        <tr>
+                            <td><%= assignedTask.Id %></td>
+                            <td><%= assignedTask.Title %></td>
+                            <td><%= assignedTask.Description %></td>
+                            <td><%= assignedTask.AuthorUsername %></td>
+                            <td><%= assignedTask.DateOfCreation.toString().substring(0, 24) %></td>
+                            <td>
+                                <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="status">
+                                    <option selected>Open this select menu</option>
+                                    <option value="1">Pending</option>
+                                    <option value="2">In progress</option>
+                                    <option value="3">Completed</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <input readonly name="id" id="id" value="<%= assignedTask.Id %>" required type="hidden">
+                    <% }) %>
+                    </tbody>
+                </table>
+                <br>
+                <button class="w-100 btn btn-lg btn-primary" type="submit">Update</button>
+            </div>
         </div>
     </div>
-</div> 
+</form>

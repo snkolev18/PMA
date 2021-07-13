@@ -16,8 +16,8 @@
   <body class="text-center">
     
 <main class="form-signin">
-  <form action="" method="POST">
-    <h1 class="h3 mb-3 fw-normal">Create new team</h1>
+  <form action="/user/task/create" method="POST">
+    <h1 class="h3 mb-3 fw-normal">Create new task</h1>
 
     <div class="form-floating">
       <input type="text" class="form-control" id="floatingInput" placeholder="Title" name="title">
@@ -27,6 +27,24 @@
     <div class="form-floating">
       <input type="text" class="form-control" id="floatingInput" placeholder="Description" name="description">
       <label for="floatingInput">Description</label>
+    </div>
+    <br>
+    <div class="form-floating">
+      <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="assigneeId">
+        <option selected>Assign user to this task</option>
+        <% for(user of users) { %>
+          <option value="<%= user.Id %>"><%= user.Username %></option>
+        <% } %>
+      </select>
+    </div>
+    <br>
+    <div class="form-floating">
+      <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="projectId">
+        <option selected>Assign the task to a project</option>
+        <% for(project of projects) { %>
+          <option value="<%= project.Id %>"><%= project.Title %></option>
+        <% } %>
+      </select>
     </div>
     <br>
       <button class="w-100 btn btn-lg btn-primary" type="submit">Create</button>

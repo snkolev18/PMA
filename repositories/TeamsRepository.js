@@ -81,7 +81,7 @@ class TeamsRepository {
     async getTeamWithUsersById(id) {
         try {
             const result = await this.#teams.request().query`SELECT * FROM vTeamsWithUsers WHERE TeamId = ${id}`;
-            return result.recordset[0];
+            return result.recordset;
         }
         catch(err) {
             console.log(err);
