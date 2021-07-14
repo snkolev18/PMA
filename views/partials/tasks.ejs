@@ -7,7 +7,9 @@
                         <th>Id</th>
                         <th>Title</th>
                         <th>Description</th>
-                        <th>Assignee</th>   
+                        <th>Assignee</th>
+                        <th>Teams that have this task</th>
+                        <th>Current task status</th>
                         <th>Date of creation</th>
                         <th>Last modified by</i></th>
                         <th>Date of last change</th>
@@ -21,9 +23,11 @@
                         <td><%= task.Title %></td>
                         <td><%= task.Description %></td>
                         <td><%= task.AssigneeUsername %></td>
+                        <td><%= task.TeamName %></td>
+                        <td><%= task.StatusName %></td>
                         <td><%= task.DateOfCreation.toString().substring(0, 24) %></td>
-                        <td>last mod by </td>
-                        <td>2021-07-07</td>
+                        <td><%= task.LastModifiedByUsername %></td>
+                        <td><%= task.DateOfLastChange.toString().substring(0, 24) %></td>
                         <td>
                             <a href="/user/task/edit/<%= task.Id %>" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
                             <a href="#" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xf1c5;</i></a>

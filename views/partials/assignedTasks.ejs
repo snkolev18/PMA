@@ -8,7 +8,8 @@
                             <th>Id</th>
                             <th>Title</th>
                             <th>Description</th>
-                            <th>Opened by</th>   
+                            <th>Opened by</th>
+                            <th>Current task status</th>
                             <th>Date of creation</th>
                             <th>Mark as</th>
                         </tr>
@@ -20,6 +21,7 @@
                             <td><%= assignedTask.Title %></td>
                             <td><%= assignedTask.Description %></td>
                             <td><%= assignedTask.AuthorUsername %></td>
+                            <td><%= assignedTask.StatusName %></td>
                             <td><%= assignedTask.DateOfCreation.toString().substring(0, 24) %></td>
                             <td>
                                 <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="status">

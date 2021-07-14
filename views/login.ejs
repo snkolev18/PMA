@@ -17,6 +17,11 @@
   <body class="text-center">
     
 <main class="form-signin">
+  <% errors.map(error => { %>
+      <div class="alert alert-danger" role="alert">
+        <%= error.message %>
+      </div>
+  <% }) %>
   <form action="/login" method="POST">
     <h1 class="h3 mb-3 fw-normal">Please log in</h1>
 

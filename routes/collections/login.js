@@ -10,12 +10,19 @@ const { hashPassword } = require("../../lib/hash");
 let users = undefined;
 
 router.get("/", function(req, res) {
+	const errors = req.session.errors;
 	if(req.session.token) {
 		res.redirect("/logout");
 		res.end();
 		return;
 	}
-	res.render("login.ejs")
+	if(errors) {
+		res.render("login.ejs", { errors : errors })
+		req.session.errors = [];
+	}
+	else {
+		res.render("login.ejs", { errors : [] })
+	}
 });
 
 router.post("/", async function(req, res) {
@@ -26,45 +33,45 @@ router.post("/", async function(req, res) {
 	// Same as salt === undefined
 
 	if (!salt) {
-		res.send("Incorrect credentials");
-		res.end();
-		return;
-	}
-
-	// Logs { Salt: '<some user salt>' }
-	console.log(salt);
-
-	const passwordForVerification = await hashPassword(password, salt.Salt);
-	const result = await users.login(username, passwordForVerification);
-
-	console.log(result);
-
-	if (result.idVerified) {
-		req.session.token = {
-			id: result.idVerified,
-			username: username,
-			roleId: result.roleId,
-			firstname: result.firstname,
-			lastname: result.lastname
-		};
-
-		console.log(req.session.token);
-
-		if (req.session.returnUrl) {
-			res.redirect(req.session.returnUrl);
-		}
-		else {
-			res.redirect("/");
-			console.log(`Current user ${req.session.token.username}`);
-			res.end();
-			return;
-		}
+		req.session.errors = new Array();
 	}
 	else {
-		console.log(req.session.token);
-		res.send("Incorrect username or password");
-	}
 
+		// Logs { Salt: '<some user salt>' }
+		console.log(salt);
+
+		const passwordForVerification = await hashPassword(password, salt.Salt);
+		const result = await users.login(username, passwordForVerification);
+
+		console.log(result);
+
+		if (result.idVerified) {
+			req.session.token = {
+				id: result.idVerified,
+				username: username,
+				roleId: result.roleId,
+				firstname: result.firstname,
+				lastname: result.lastname
+			};
+
+			console.log(req.session.token);
+
+			if (req.session.returnUrl) {
+				res.redirect(req.session.returnUrl);
+			}
+			else {
+				res.redirect("/");
+				console.log(`Current user ${req.session.token.username}`);
+				res.end();
+				return;
+			}
+		}
+		else {
+			console.log(req.session.token);
+			req.session.errors.push({ message: "Incorrect username or password" });
+		}
+	}
+	res.redirect("/login");
 });
 
 module.exports = router;
