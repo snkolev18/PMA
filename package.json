@@ -25,6 +25,8 @@
     "express-limiter": "^1.6.1",
     "express-rate-limit": "^5.3.0",
     "express-session": "^1.17.2",
+    "helmet": "^4.6.0",
+    "jsdoc": "^3.6.7",
     "msnodesqlv8": "^2.2.0",
     "mssql": "^7.1.3"
   },

@@ -6,9 +6,27 @@ const app = express();
 const { DbSingleton } = require("./lib/dbInstance");
 const { UserRepository } = require("./repositories/UserRepository");
 const { isAuthenticated, isAdmin } = require("./middlewares/authentication");
+const helmet = require("helmet");
+
 const PORT = process.env.SERVER_PORT || 1337
 
 let users = undefined;
+
+app.disable("x-powered-by");
+app.use(helmet.contentSecurityPolicy(
+	{
+		useDefaults: false,
+		directives: {
+			defaultSrc: helmet.contentSecurityPolicy.dangerouslyDisableDefaultSrc,
+			scriptSrc: ["'self'", "'unsafe-inline'", "https://code.jquery.com/", "https://cdn.jsdelivr.net/", "https://unpkg.com/"],
+			objectSrc: ["'none'"],
+			upgradeInsecureRequests: [],
+			imgSrc: ["'self'", "data:", "https://investsofia.com/wp-content/uploads/2019/08/facebook-default-no-profile-pic-300x300.jpg"],
+			fontSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com/", "https://fonts.gstatic.com"],
+			styleSrc: ["'self'", "'unsafe-inline'", "https://cdn.jsdelivr.net/", "https://fonts.gstatic.com/", "https://fonts.googleapis.com/", "https://getbootstrap.com", "https://cdnjs.cloudflare.com", "https://stackpath.bootstrapcdn.com"]
+		}
+	}
+), helmet.crossOriginResourcePolicy());
 
 // Servers static files like css, html and looks for them in the public folder
 app.use("/styles", express.static("public/styles"))
