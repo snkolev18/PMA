@@ -18,7 +18,7 @@ app.use(helmet.contentSecurityPolicy(
 		useDefaults: false,
 		directives: {
 			defaultSrc: helmet.contentSecurityPolicy.dangerouslyDisableDefaultSrc,
-			scriptSrc: ["'self'", "'unsafe-inline'", "https://code.jquery.com/", "https://cdn.jsdelivr.net/", "https://unpkg.com/"],
+			scriptSrc: ["'self'", "https://code.jquery.com/", "https://cdn.jsdelivr.net/", "https://unpkg.com/"],
 			objectSrc: ["'none'"],
 			upgradeInsecureRequests: [],
 			imgSrc: ["'self'", "data:", "https://investsofia.com/wp-content/uploads/2019/08/facebook-default-no-profile-pic-300x300.jpg"],
