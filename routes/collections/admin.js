@@ -15,8 +15,9 @@ let users = undefined;
 let teams = undefined;
 
 router.get("/", isAdmin, function(req, res) {
-	res.send("<h1>Tova e adminskiya dashboard</h1><br><a href=\"/admin/users/\">Users</a><br><a href=\"/admin/teams/\">Teams</a><br><a href=\"/admin/register/\">Register new user</a>");
-})
+	// res.send("<h1>Tova e adminskiya dashboard</h1><br><a href=\"/admin/users/\">Users</a><br><a href=\"/admin/teams/\">Teams</a><br><a href=\"/admin/register/\">Register new user</a>");
+	res.render("admin.ejs")
+});
 
 
 router.get("/register", isAdmin, function(req, res) {

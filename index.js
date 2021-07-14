@@ -38,7 +38,7 @@ app.get("/", function(req, res) {
 		let root = req.session.token.roleId === 2 ? true : false; 
 		res.render("index.ejs", { 
 			logged: true,
-			root: root 
+			root: root
 		})
 	}
 	else {
@@ -63,7 +63,10 @@ app.get("/logout", isAuthenticated, function(req, res) {
 });
 
 app.get("*", function(req, res) {
-	res.status(404).render("errorPage.ejs");
+	res.status(404).render("errorPage.ejs", {
+		statusCode: 404,
+		errorMessage: "Page not found"
+	});
 });
 
 app.listen(PORT, async () => {
