@@ -34,7 +34,7 @@ router.get("/profile", isAuthenticated, async function(req, res) {
 	const tempTasks = await tasks.getAllWithTeams();
 	console.log(tempTasks);
 	console.log("!!!==================!!!")
-	const _tasks_ = tempTasks.filter(task => task.AuthorId === req.session.token.id);
+	const _tasks_ = tempTasks.filter(task => task.AuthorId === req.session.token.id).filter(task => task.StatusName !== "Completed");
 	console.log(_tasks_)
 
 	const tempAssignedTasks = await tasks.getAll();
@@ -209,7 +209,7 @@ router.post("/project/delete", isAuthenticated, configureLimiter(3, 3), async fu
 		return;
 	}
 
-	if (projectForDelete[0].CreatorId != req.session.token.id) {
+	if (projectForDelete[0].CreatorId !== req.session.token.id) {
 		res.status(403).render("errorPage.ejs", {statusCode: 403, errorMessage: "Forbidden"});
 		res.end();
 		return;
@@ -318,6 +318,95 @@ router.post("/task/create", isAuthenticated, configureLimiter(5, 2), async funct
 	}
 
 	res.redirect("/user/task/create");
+});
+
+router.get("/task/edit/:id", isAuthenticated, async function(req, res) {
+	const errors = req.session.errors;
+	const taskExistence = await tasks.getTaskById(req.params.id);
+	console.log(taskExistence)
+	const _users_ = await users.getAll();
+	if(taskExistence === undefined) {
+		res.status(404).render("errorPage.ejs", { statusCode: 404, errorMessage: "Not found" });
+		res.end();
+		return;
+	}
+	if(taskExistence.IsDeleted) {
+		res.status(400).render("errorPage.ejs", { statusCode: 400, errorMessage: "Bad request" });
+		res.end();
+		return;
+	}
+	if(errors) {
+		res.render("editTask.ejs", { 
+			task: taskExistence,
+			users: _users_, 
+			errors: errors 
+		});
+	}
+	else {
+		res.render("editTask.ejs", { 
+			task: taskExistence,
+			users: _users_,  
+			errors: [] 
+		});
+	}
+
+});
+
+router.post("/task/edit", isAuthenticated, async function(req, res) {
+	const newTaskData = req.body;
+
+	let errors = validateTPTCredentials(newTaskData);
+	if(errors.length) {
+		req.session.errors = errors;
+	}
+	else {
+
+		req.session.errors = [];
+
+		if(isNaN(newTaskData.assigneeId)) {
+			req.session.errors.push({ message: "Invalid assignee id" });
+		}
+		const assigneeExistenceId = await users.getUserById(newTaskData.assigneeId);
+		console.log(assigneeExistenceId)
+		if(assigneeExistenceId === undefined) {
+			req.session.errors.push({ message: "This user doesn't exist" });
+		}
+
+		const sc = await tasks.update(newTaskData, newTaskData.id, req.session.token.id);
+		if(sc) {
+			req.session.errors.push({ message: "There is already a task with this title" });
+		}
+	}
+
+	res.redirect(`/user/task/edit/${newTaskData.id}`);
+});
+
+router.post("/task/delete", isAuthenticated, async function(req, res) {
+	const id = req.body.id;
+
+	const taskExistence = await tasks.getTaskById(id)
+	if(taskExistence === undefined) {
+		res.status(404).render("errorPage.ejs", { statusCode: 404, errorMessage: "Not found" });
+		res.end();
+		return;
+	}
+	if(taskExistence.AuthorId !== req.session.token.id) {
+		res.status(403).render("errorPage.ejs", { statusCode: 403, errorMessage: "Forbidden" });
+		res.end();
+		return;
+	}
+	if(taskExistence.IsDeleted) {
+		res.status(403).render("errorPage.ejs", { statusCode: 403, errorMessage: "Forbidden" });
+		res.end();
+		return;
+	}
+
+	const sc = await tasks.delete(id);
+	if(sc) {
+		res.status(400).render("errorPage.ejs", { statusCode: 400, errorMessage: "An error occured while deleting this task" });
+	}
+
+	res.redirect("/user/profile");
 });
 
 router.post("/update/project/status", isAuthenticated, configureLimiter(6, 2), async function(req, res) {
