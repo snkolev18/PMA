@@ -1,12 +1,12 @@
 USE [master]
 GO
-/****** Object:  Database [Scalefocus-PMA-db]    Script Date: 7/14/2021 12:30:01 AM ******/
+/****** Object:  Database [Scalefocus-PMA-db]    Script Date: 7/14/2021 7:38:07 PM ******/
 CREATE DATABASE [Scalefocus-PMA-db]
  CONTAINMENT = NONE
  ON  PRIMARY 
-( NAME = N'Scalefocus-PMA-db', FILENAME = N'D:\SQL Server 2019\MSSQL15.SQLEXPRESS\MSSQL\DATA\Scalefocus-PMA-db.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
+( NAME = N'Scalefocus-PMA-db', FILENAME = N'C:\Users\SNKolev18\Scalefocus-PMA-db.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
  LOG ON 
-( NAME = N'Scalefocus-PMA-db_log', FILENAME = N'D:\SQL Server 2019\MSSQL15.SQLEXPRESS\MSSQL\DATA\Scalefocus-PMA-db_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
+( NAME = N'Scalefocus-PMA-db_log', FILENAME = N'C:\Users\SNKolev18\Scalefocus-PMA-db_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
 GO
 IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
 begin
@@ -73,7 +73,7 @@ ALTER DATABASE [Scalefocus-PMA-db] SET DELAYED_DURABILITY = DISABLED
 GO
 USE [Scalefocus-PMA-db]
 GO
-/****** Object:  Table [dbo].[Projects]    Script Date: 7/14/2021 12:30:01 AM ******/
+/****** Object:  Table [dbo].[Projects]    Script Date: 7/14/2021 7:38:07 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -93,7 +93,7 @@ CREATE TABLE [dbo].[Projects](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ProjectsTeams]    Script Date: 7/14/2021 12:30:01 AM ******/
+/****** Object:  Table [dbo].[ProjectsTeams]    Script Date: 7/14/2021 7:38:07 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -108,7 +108,7 @@ CREATE TABLE [dbo].[ProjectsTeams](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Roles]    Script Date: 7/14/2021 12:30:01 AM ******/
+/****** Object:  Table [dbo].[Roles]    Script Date: 7/14/2021 7:38:07 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -122,7 +122,7 @@ CREATE TABLE [dbo].[Roles](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Tasks]    Script Date: 7/14/2021 12:30:01 AM ******/
+/****** Object:  Table [dbo].[Tasks]    Script Date: 7/14/2021 7:38:07 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -145,7 +145,7 @@ CREATE TABLE [dbo].[Tasks](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[TaskStatus]    Script Date: 7/14/2021 12:30:01 AM ******/
+/****** Object:  Table [dbo].[TaskStatus]    Script Date: 7/14/2021 7:38:07 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -159,7 +159,7 @@ CREATE TABLE [dbo].[TaskStatus](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Teams]    Script Date: 7/14/2021 12:30:01 AM ******/
+/****** Object:  Table [dbo].[Teams]    Script Date: 7/14/2021 7:38:07 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -179,7 +179,7 @@ CREATE TABLE [dbo].[Teams](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Users]    Script Date: 7/14/2021 12:30:01 AM ******/
+/****** Object:  Table [dbo].[Users]    Script Date: 7/14/2021 7:38:07 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -203,7 +203,7 @@ CREATE TABLE [dbo].[Users](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[UsersTeams]    Script Date: 7/14/2021 12:30:01 AM ******/
+/****** Object:  Table [dbo].[UsersTeams]    Script Date: 7/14/2021 7:38:07 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -218,7 +218,7 @@ CREATE TABLE [dbo].[UsersTeams](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[WorkLog]    Script Date: 7/14/2021 12:30:01 AM ******/
+/****** Object:  Table [dbo].[WorkLog]    Script Date: 7/14/2021 7:38:07 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -235,7 +235,7 @@ CREATE TABLE [dbo].[WorkLog](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  View [dbo].[vAllProjects]    Script Date: 7/14/2021 12:30:01 AM ******/
+/****** Object:  View [dbo].[vAllProjects]    Script Date: 7/14/2021 7:38:07 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -255,11 +255,12 @@ ON
 p.CreatorId = u.Id
 WHERE p.IsDeleted = 0
 GO
-/****** Object:  View [dbo].[vAllTasks]    Script Date: 7/14/2021 12:30:01 AM ******/
+/****** Object:  View [dbo].[vAllTasks]    Script Date: 7/14/2021 7:38:07 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+
 
 
 CREATE   VIEW [dbo].[vAllTasks]
@@ -267,14 +268,14 @@ CREATE   VIEW [dbo].[vAllTasks]
 AS
 
 SELECT t.Id, t.ProjectId, t.AuthorId, t.Title, t.[Description], t.[Status], t.DateOfCreation, t.AssignToId, t.DateOfLastChange, t.LastModifiedById,
-	   p.Title AS ProjectTitle, u.Username AS AuthorUsername, u2.Username AS AssigneeUsername, ts.Status AS StatusName
+	   p.Title AS ProjectTitle, u.Username AS AuthorUsername, u2.Username AS AssigneeUsername, ts.Status AS StatusName, t.IsDeleted
 	FROM Tasks t
 INNER JOIN Users u ON t.AuthorId = u.Id
 INNER JOIN Users u2 ON t.AssignToId = u2.Id
 INNER JOIN Projects p ON t.ProjectId = p.Id
 INNER JOIN TaskStatus ts ON ts.Id = t.Status
 GO
-/****** Object:  View [dbo].[vAllTeams]    Script Date: 7/14/2021 12:30:01 AM ******/
+/****** Object:  View [dbo].[vAllTeams]    Script Date: 7/14/2021 7:38:07 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -292,7 +293,7 @@ t.CreatorId = u.Id
 WHERE t.IsDeleted = 0
 
 GO
-/****** Object:  View [dbo].[vProjectsWithTeams]    Script Date: 7/14/2021 12:30:01 AM ******/
+/****** Object:  View [dbo].[vProjectsWithTeams]    Script Date: 7/14/2021 7:38:07 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -314,11 +315,12 @@ ON
 u.Id = p.CreatorId
 WHERE p.IsDeleted = 0 AND t.IsDeleted = 0
 GO
-/****** Object:  View [dbo].[vTasksWithTeams]    Script Date: 7/14/2021 12:30:01 AM ******/
+/****** Object:  View [dbo].[vTasksWithTeams]    Script Date: 7/14/2021 7:38:07 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+
 
 
 CREATE   VIEW [dbo].[vTasksWithTeams]
@@ -344,9 +346,9 @@ tms.Id = ut.TeamId
 INNER JOIN TaskStatus ts
 ON
 ts.Id = t.Status
-WHERE tms.IsDeleted = 0
+WHERE tms.IsDeleted = 0 AND t.IsDeleted = 0
 GO
-/****** Object:  View [dbo].[vTeamsWithUsers]    Script Date: 7/14/2021 12:30:01 AM ******/
+/****** Object:  View [dbo].[vTeamsWithUsers]    Script Date: 7/14/2021 7:38:07 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -385,7 +387,7 @@ INSERT [dbo].[Projects] ([Id], [Title], [Description], [DateOfCreation], [Creato
 GO
 INSERT [dbo].[Projects] ([Id], [Title], [Description], [DateOfCreation], [CreatorId], [DateOfLastChange], [LastModifiedById], [IsDeleted]) VALUES (12, N'Koncert na Azis v Burgas', N'Bileti na kasite na letniya teatur', CAST(N'2021-07-13T07:16:31.0000000' AS DateTime2), 16, CAST(N'2021-07-13T10:16:31.0000000' AS DateTime2), NULL, 0)
 GO
-INSERT [dbo].[Projects] ([Id], [Title], [Description], [DateOfCreation], [CreatorId], [DateOfLastChange], [LastModifiedById], [IsDeleted]) VALUES (13, N'stoqncho', N'azis ', CAST(N'2021-07-13T10:26:05.0000000' AS DateTime2), 8, CAST(N'2021-07-13T10:26:12.0000000' AS DateTime2), 8, 0)
+INSERT [dbo].[Projects] ([Id], [Title], [Description], [DateOfCreation], [CreatorId], [DateOfLastChange], [LastModifiedById], [IsDeleted]) VALUES (13, N'assd', N'azis ', CAST(N'2021-07-13T10:26:05.0000000' AS DateTime2), 8, CAST(N'2021-07-14T16:36:11.0000000' AS DateTime2), 8, 0)
 GO
 INSERT [dbo].[Projects] ([Id], [Title], [Description], [DateOfCreation], [CreatorId], [DateOfLastChange], [LastModifiedById], [IsDeleted]) VALUES (14, N'Невиждано досега', N'Misconfigured Windows binaries', CAST(N'2021-07-13T19:42:06.0000000' AS DateTime2), 8, CAST(N'2021-07-13T22:42:06.0000000' AS DateTime2), NULL, 0)
 GO
@@ -394,6 +396,8 @@ GO
 INSERT [dbo].[ProjectsTeams] ([TeamId], [ProjectId]) VALUES (1, 1)
 GO
 INSERT [dbo].[ProjectsTeams] ([TeamId], [ProjectId]) VALUES (1, 7)
+GO
+INSERT [dbo].[ProjectsTeams] ([TeamId], [ProjectId]) VALUES (1, 13)
 GO
 INSERT [dbo].[ProjectsTeams] ([TeamId], [ProjectId]) VALUES (2, 7)
 GO
@@ -423,35 +427,35 @@ SET IDENTITY_INSERT [dbo].[Roles] OFF
 GO
 SET IDENTITY_INSERT [dbo].[Tasks] ON 
 GO
-INSERT [dbo].[Tasks] ([Id], [ProjectId], [AuthorId], [Title], [Description], [Status], [DateOfCreation], [AssignToId], [DateOfLastChange], [LastModifiedById], [IsDeleted]) VALUES (1, 8, 16, N'Task1', N'DESC1', 1, CAST(N'2021-07-10T19:04:20.0000000' AS DateTime2), 17, CAST(N'2021-07-10T19:04:20.0000000' AS DateTime2), NULL, NULL)
+INSERT [dbo].[Tasks] ([Id], [ProjectId], [AuthorId], [Title], [Description], [Status], [DateOfCreation], [AssignToId], [DateOfLastChange], [LastModifiedById], [IsDeleted]) VALUES (1, 8, 16, N'Task1', N'DESC1', 1, CAST(N'2021-07-10T19:04:20.0000000' AS DateTime2), 17, CAST(N'2021-07-10T19:04:20.0000000' AS DateTime2), NULL, 0)
 GO
-INSERT [dbo].[Tasks] ([Id], [ProjectId], [AuthorId], [Title], [Description], [Status], [DateOfCreation], [AssignToId], [DateOfLastChange], [LastModifiedById], [IsDeleted]) VALUES (3, 8, 16, N'Task2', N'DESC2', 1, CAST(N'2021-07-10T19:05:00.0000000' AS DateTime2), 17, CAST(N'2021-07-10T19:05:00.0000000' AS DateTime2), NULL, NULL)
+INSERT [dbo].[Tasks] ([Id], [ProjectId], [AuthorId], [Title], [Description], [Status], [DateOfCreation], [AssignToId], [DateOfLastChange], [LastModifiedById], [IsDeleted]) VALUES (3, 8, 16, N'Task2', N'DESC2', 1, CAST(N'2021-07-10T19:05:00.0000000' AS DateTime2), 17, CAST(N'2021-07-10T19:05:00.0000000' AS DateTime2), NULL, 0)
 GO
-INSERT [dbo].[Tasks] ([Id], [ProjectId], [AuthorId], [Title], [Description], [Status], [DateOfCreation], [AssignToId], [DateOfLastChange], [LastModifiedById], [IsDeleted]) VALUES (4, 8, 17, N'Task3', N'DESC3', 1, CAST(N'2021-07-10T19:05:28.0000000' AS DateTime2), 16, CAST(N'2021-07-10T19:05:28.0000000' AS DateTime2), NULL, NULL)
+INSERT [dbo].[Tasks] ([Id], [ProjectId], [AuthorId], [Title], [Description], [Status], [DateOfCreation], [AssignToId], [DateOfLastChange], [LastModifiedById], [IsDeleted]) VALUES (4, 8, 17, N'Task3', N'DESC3', 1, CAST(N'2021-07-10T19:05:28.0000000' AS DateTime2), 16, CAST(N'2021-07-10T19:05:28.0000000' AS DateTime2), NULL, 0)
 GO
-INSERT [dbo].[Tasks] ([Id], [ProjectId], [AuthorId], [Title], [Description], [Status], [DateOfCreation], [AssignToId], [DateOfLastChange], [LastModifiedById], [IsDeleted]) VALUES (5, 8, 8, N'Task4', N'DESC4', 3, CAST(N'2021-07-10T21:38:43.0000000' AS DateTime2), 8, CAST(N'2021-07-10T21:38:43.0000000' AS DateTime2), NULL, NULL)
+INSERT [dbo].[Tasks] ([Id], [ProjectId], [AuthorId], [Title], [Description], [Status], [DateOfCreation], [AssignToId], [DateOfLastChange], [LastModifiedById], [IsDeleted]) VALUES (5, 8, 8, N'Task4', N'DESC4', 3, CAST(N'2021-07-10T21:38:43.0000000' AS DateTime2), 8, CAST(N'2021-07-10T21:38:43.0000000' AS DateTime2), NULL, 0)
 GO
-INSERT [dbo].[Tasks] ([Id], [ProjectId], [AuthorId], [Title], [Description], [Status], [DateOfCreation], [AssignToId], [DateOfLastChange], [LastModifiedById], [IsDeleted]) VALUES (7, 9, 8, N'Задача5', N'Описание', 3, CAST(N'2021-07-10T21:47:36.0000000' AS DateTime2), 8, CAST(N'2021-07-10T21:47:36.0000000' AS DateTime2), NULL, NULL)
+INSERT [dbo].[Tasks] ([Id], [ProjectId], [AuthorId], [Title], [Description], [Status], [DateOfCreation], [AssignToId], [DateOfLastChange], [LastModifiedById], [IsDeleted]) VALUES (7, 9, 8, N'Shellshocker HTB', N'A blackbox CTF challenge', 3, CAST(N'2021-07-10T21:47:36.0000000' AS DateTime2), 8, CAST(N'2021-07-10T21:47:36.0000000' AS DateTime2), 8, 0)
 GO
-INSERT [dbo].[Tasks] ([Id], [ProjectId], [AuthorId], [Title], [Description], [Status], [DateOfCreation], [AssignToId], [DateOfLastChange], [LastModifiedById], [IsDeleted]) VALUES (8, 9, 8, N'Задача 6', N'Описаниееееее', 1, CAST(N'2021-07-10T21:47:58.0000000' AS DateTime2), 16, CAST(N'2021-07-10T21:47:58.0000000' AS DateTime2), NULL, NULL)
+INSERT [dbo].[Tasks] ([Id], [ProjectId], [AuthorId], [Title], [Description], [Status], [DateOfCreation], [AssignToId], [DateOfLastChange], [LastModifiedById], [IsDeleted]) VALUES (8, 9, 8, N'Задача ', N'Описаниееееее', 3, CAST(N'2021-07-10T21:47:58.0000000' AS DateTime2), 8, CAST(N'2021-07-10T21:47:58.0000000' AS DateTime2), 8, 0)
 GO
-INSERT [dbo].[Tasks] ([Id], [ProjectId], [AuthorId], [Title], [Description], [Status], [DateOfCreation], [AssignToId], [DateOfLastChange], [LastModifiedById], [IsDeleted]) VALUES (12, 7, 8, N'Chichetoooooooooooooooooo', N'Ne znam, no chicheto veroyatno shte znae', 1, CAST(N'2021-07-11T23:07:09.0000000' AS DateTime2), NULL, CAST(N'2021-07-11T23:07:09.0000000' AS DateTime2), NULL, NULL)
+INSERT [dbo].[Tasks] ([Id], [ProjectId], [AuthorId], [Title], [Description], [Status], [DateOfCreation], [AssignToId], [DateOfLastChange], [LastModifiedById], [IsDeleted]) VALUES (12, 7, 8, N'Chichetoooooooooooooooooo', N'Ne znam, no chicheto veroyatno shte znae', 1, CAST(N'2021-07-11T23:07:09.0000000' AS DateTime2), 8, CAST(N'2021-07-11T23:07:09.0000000' AS DateTime2), NULL, 1)
 GO
-INSERT [dbo].[Tasks] ([Id], [ProjectId], [AuthorId], [Title], [Description], [Status], [DateOfCreation], [AssignToId], [DateOfLastChange], [LastModifiedById], [IsDeleted]) VALUES (13, 6, 8, N'Aziskataaa', N'Azis i Vanko 1 peyat na Ivan', 1, CAST(N'2021-07-13T09:49:12.0000000' AS DateTime2), NULL, CAST(N'2021-07-13T09:49:12.0000000' AS DateTime2), NULL, NULL)
+INSERT [dbo].[Tasks] ([Id], [ProjectId], [AuthorId], [Title], [Description], [Status], [DateOfCreation], [AssignToId], [DateOfLastChange], [LastModifiedById], [IsDeleted]) VALUES (13, 6, 8, N'Aziskataaa', N'Azis i Vanko 1 peyat na Ivan', 1, CAST(N'2021-07-13T09:49:12.0000000' AS DateTime2), 8, CAST(N'2021-07-13T09:49:12.0000000' AS DateTime2), NULL, 0)
 GO
-INSERT [dbo].[Tasks] ([Id], [ProjectId], [AuthorId], [Title], [Description], [Status], [DateOfCreation], [AssignToId], [DateOfLastChange], [LastModifiedById], [IsDeleted]) VALUES (14, 7, 16, N'AAAAAAAAA', N'AAAAAAAAAAA', 1, CAST(N'2021-07-13T09:56:19.0000000' AS DateTime2), NULL, CAST(N'2021-07-13T09:56:19.0000000' AS DateTime2), NULL, NULL)
+INSERT [dbo].[Tasks] ([Id], [ProjectId], [AuthorId], [Title], [Description], [Status], [DateOfCreation], [AssignToId], [DateOfLastChange], [LastModifiedById], [IsDeleted]) VALUES (14, 7, 16, N'AAAAAAAAA', N'AAAAAAAAAAA', 1, CAST(N'2021-07-13T09:56:19.0000000' AS DateTime2), 8, CAST(N'2021-07-13T09:56:19.0000000' AS DateTime2), NULL, 0)
 GO
-INSERT [dbo].[Tasks] ([Id], [ProjectId], [AuthorId], [Title], [Description], [Status], [DateOfCreation], [AssignToId], [DateOfLastChange], [LastModifiedById], [IsDeleted]) VALUES (15, 7, 8, N'Aziseeeeeeeeee', N'Aziseeeeeeeeee', 1, CAST(N'2021-07-13T09:58:02.0000000' AS DateTime2), NULL, CAST(N'2021-07-13T09:58:02.0000000' AS DateTime2), NULL, NULL)
+INSERT [dbo].[Tasks] ([Id], [ProjectId], [AuthorId], [Title], [Description], [Status], [DateOfCreation], [AssignToId], [DateOfLastChange], [LastModifiedById], [IsDeleted]) VALUES (15, 7, 8, N'Aziseeeeeeeeee', N'Aziseeeeeeeeee', 1, CAST(N'2021-07-13T09:58:02.0000000' AS DateTime2), 8, CAST(N'2021-07-13T09:58:02.0000000' AS DateTime2), NULL, 0)
 GO
-INSERT [dbo].[Tasks] ([Id], [ProjectId], [AuthorId], [Title], [Description], [Status], [DateOfCreation], [AssignToId], [DateOfLastChange], [LastModifiedById], [IsDeleted]) VALUES (16, 9, 8, N'Fiki', N'Ne znam veche', 1, CAST(N'2021-07-13T10:04:09.0000000' AS DateTime2), NULL, CAST(N'2021-07-13T10:04:09.0000000' AS DateTime2), NULL, NULL)
+INSERT [dbo].[Tasks] ([Id], [ProjectId], [AuthorId], [Title], [Description], [Status], [DateOfCreation], [AssignToId], [DateOfLastChange], [LastModifiedById], [IsDeleted]) VALUES (16, 9, 8, N'Fiki', N'Ne znam veche', 1, CAST(N'2021-07-13T10:04:09.0000000' AS DateTime2), 16, CAST(N'2021-07-13T10:04:09.0000000' AS DateTime2), NULL, 0)
 GO
-INSERT [dbo].[Tasks] ([Id], [ProjectId], [AuthorId], [Title], [Description], [Status], [DateOfCreation], [AssignToId], [DateOfLastChange], [LastModifiedById], [IsDeleted]) VALUES (17, 7, 8, N'Storaro', N'Storarooooooooooooo', 3, CAST(N'2021-07-13T10:09:48.0000000' AS DateTime2), 8, CAST(N'2021-07-13T10:09:48.0000000' AS DateTime2), NULL, NULL)
+INSERT [dbo].[Tasks] ([Id], [ProjectId], [AuthorId], [Title], [Description], [Status], [DateOfCreation], [AssignToId], [DateOfLastChange], [LastModifiedById], [IsDeleted]) VALUES (17, 7, 8, N'Storaro', N'Storarooooooooooooo', 3, CAST(N'2021-07-13T10:09:48.0000000' AS DateTime2), 8, CAST(N'2021-07-13T10:09:48.0000000' AS DateTime2), NULL, 0)
 GO
-INSERT [dbo].[Tasks] ([Id], [ProjectId], [AuthorId], [Title], [Description], [Status], [DateOfCreation], [AssignToId], [DateOfLastChange], [LastModifiedById], [IsDeleted]) VALUES (18, 12, 8, N'Yeaaaa', N'stoqncho', 1, CAST(N'2021-07-13T14:02:24.0000000' AS DateTime2), 20, CAST(N'2021-07-13T14:02:24.0000000' AS DateTime2), NULL, NULL)
+INSERT [dbo].[Tasks] ([Id], [ProjectId], [AuthorId], [Title], [Description], [Status], [DateOfCreation], [AssignToId], [DateOfLastChange], [LastModifiedById], [IsDeleted]) VALUES (18, 12, 8, N'Yeaaaa', N'stoqncho', 1, CAST(N'2021-07-13T14:02:24.0000000' AS DateTime2), 20, CAST(N'2021-07-13T14:02:24.0000000' AS DateTime2), NULL, 0)
 GO
-INSERT [dbo].[Tasks] ([Id], [ProjectId], [AuthorId], [Title], [Description], [Status], [DateOfCreation], [AssignToId], [DateOfLastChange], [LastModifiedById], [IsDeleted]) VALUES (19, 13, 23, N'GTFOBins', N'UNIX poorly configured binaries', 3, CAST(N'2021-07-13T22:55:32.0000000' AS DateTime2), 8, CAST(N'2021-07-13T22:55:32.0000000' AS DateTime2), NULL, NULL)
+INSERT [dbo].[Tasks] ([Id], [ProjectId], [AuthorId], [Title], [Description], [Status], [DateOfCreation], [AssignToId], [DateOfLastChange], [LastModifiedById], [IsDeleted]) VALUES (19, 13, 23, N'GTFOBins', N'UNIX poorly configured binaries', 3, CAST(N'2021-07-13T22:55:32.0000000' AS DateTime2), 8, CAST(N'2021-07-13T22:55:32.0000000' AS DateTime2), NULL, 0)
 GO
-INSERT [dbo].[Tasks] ([Id], [ProjectId], [AuthorId], [Title], [Description], [Status], [DateOfCreation], [AssignToId], [DateOfLastChange], [LastModifiedById], [IsDeleted]) VALUES (20, 14, 8, N'Васил', N'Божков', 1, CAST(N'2021-07-13T23:25:38.0000000' AS DateTime2), 23, CAST(N'2021-07-13T23:25:38.0000000' AS DateTime2), NULL, NULL)
+INSERT [dbo].[Tasks] ([Id], [ProjectId], [AuthorId], [Title], [Description], [Status], [DateOfCreation], [AssignToId], [DateOfLastChange], [LastModifiedById], [IsDeleted]) VALUES (20, 14, 8, N'Васил', N'Божков', 1, CAST(N'2021-07-13T23:25:38.0000000' AS DateTime2), 23, CAST(N'2021-07-13T23:25:38.0000000' AS DateTime2), NULL, 0)
 GO
 SET IDENTITY_INSERT [dbo].[Tasks] OFF
 GO
@@ -535,7 +539,7 @@ INSERT [dbo].[UsersTeams] ([TeamId], [UserId]) VALUES (9, 20)
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [UQ_Projects_Title]    Script Date: 7/14/2021 12:30:01 AM ******/
+/****** Object:  Index [UQ_Projects_Title]    Script Date: 7/14/2021 7:38:07 PM ******/
 ALTER TABLE [dbo].[Projects] ADD  CONSTRAINT [UQ_Projects_Title] UNIQUE NONCLUSTERED 
 (
 	[Title] ASC
@@ -543,7 +547,15 @@ ALTER TABLE [dbo].[Projects] ADD  CONSTRAINT [UQ_Projects_Title] UNIQUE NONCLUST
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [UQ_Teams_Title]    Script Date: 7/14/2021 12:30:01 AM ******/
+/****** Object:  Index [UQ_Tasks]    Script Date: 7/14/2021 7:38:07 PM ******/
+ALTER TABLE [dbo].[Tasks] ADD  CONSTRAINT [UQ_Tasks] UNIQUE NONCLUSTERED 
+(
+	[Title] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+GO
+SET ANSI_PADDING ON
+GO
+/****** Object:  Index [UQ_Teams_Title]    Script Date: 7/14/2021 7:38:07 PM ******/
 ALTER TABLE [dbo].[Teams] ADD  CONSTRAINT [UQ_Teams_Title] UNIQUE NONCLUSTERED 
 (
 	[Title] ASC
@@ -551,7 +563,7 @@ ALTER TABLE [dbo].[Teams] ADD  CONSTRAINT [UQ_Teams_Title] UNIQUE NONCLUSTERED
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [UQ_Users_Username]    Script Date: 7/14/2021 12:30:01 AM ******/
+/****** Object:  Index [UQ_Users_Username]    Script Date: 7/14/2021 7:38:07 PM ******/
 ALTER TABLE [dbo].[Users] ADD  CONSTRAINT [UQ_Users_Username] UNIQUE NONCLUSTERED 
 (
 	[Username] ASC
@@ -679,7 +691,7 @@ REFERENCES [dbo].[Users] ([Id])
 GO
 ALTER TABLE [dbo].[WorkLog] CHECK CONSTRAINT [FK_WorkLog_Users]
 GO
-/****** Object:  StoredProcedure [dbo].[AssignProjectToTeam]    Script Date: 7/14/2021 12:30:01 AM ******/
+/****** Object:  StoredProcedure [dbo].[AssignProjectToTeam]    Script Date: 7/14/2021 7:38:07 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -695,7 +707,7 @@ INSERT INTO [dbo].[ProjectsTeams]
 	(TeamId, ProjectId)
 VALUES(@TeamId, @ProjectId)
 GO
-/****** Object:  StoredProcedure [dbo].[AssignUserToTeam]    Script Date: 7/14/2021 12:30:01 AM ******/
+/****** Object:  StoredProcedure [dbo].[AssignUserToTeam]    Script Date: 7/14/2021 7:38:07 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -711,7 +723,7 @@ INSERT INTO [dbo].[UsersTeams]
 	(TeamId, UserId)
 VALUES(@TeamId, @UserId)
 GO
-/****** Object:  StoredProcedure [dbo].[CreateProject]    Script Date: 7/14/2021 12:30:01 AM ******/
+/****** Object:  StoredProcedure [dbo].[CreateProject]    Script Date: 7/14/2021 7:38:07 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -728,7 +740,7 @@ INSERT INTO [dbo].[Projects]
 	(Title, [Description], CreatorId, DateOfCreation)
 VALUES(@Title, @Description, @CreatorId, GETUTCDATE())
 GO
-/****** Object:  StoredProcedure [dbo].[CreateTask]    Script Date: 7/14/2021 12:30:01 AM ******/
+/****** Object:  StoredProcedure [dbo].[CreateTask]    Script Date: 7/14/2021 7:38:07 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -748,7 +760,7 @@ INSERT INTO [dbo].[Tasks]
 	(ProjectId, AuthorId, Title, [Description], [Status], AssignToId)
 VALUES(@ProjectId, @AuthorId, @Title, @Description, @Status, @AssigneeId)
 GO
-/****** Object:  StoredProcedure [dbo].[CreateTeam]    Script Date: 7/14/2021 12:30:01 AM ******/
+/****** Object:  StoredProcedure [dbo].[CreateTeam]    Script Date: 7/14/2021 7:38:07 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -765,7 +777,7 @@ INSERT INTO [dbo].[Teams]
 	(Title, [Description], CreatorId)
 VALUES(@Title, @Description, @CreatorId)
 GO
-/****** Object:  StoredProcedure [dbo].[DeleteProject]    Script Date: 7/14/2021 12:30:01 AM ******/
+/****** Object:  StoredProcedure [dbo].[DeleteProject]    Script Date: 7/14/2021 7:38:07 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -780,7 +792,7 @@ UPDATE dbo.Projects
 	SET IsDeleted = 1
 WHERE Id = @Id
 GO
-/****** Object:  StoredProcedure [dbo].[DeleteTask]    Script Date: 7/14/2021 12:30:01 AM ******/
+/****** Object:  StoredProcedure [dbo].[DeleteTask]    Script Date: 7/14/2021 7:38:07 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -795,7 +807,7 @@ UPDATE Tasks
 	SET IsDeleted = 1
 WHERE Id = @TaskId
 GO
-/****** Object:  StoredProcedure [dbo].[DeleteTeam]    Script Date: 7/14/2021 12:30:01 AM ******/
+/****** Object:  StoredProcedure [dbo].[DeleteTeam]    Script Date: 7/14/2021 7:38:07 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -810,7 +822,7 @@ UPDATE dbo.Teams
 	SET IsDeleted = 1
 WHERE Id = @Id
 GO
-/****** Object:  StoredProcedure [dbo].[DeleteUser]    Script Date: 7/14/2021 12:30:01 AM ******/
+/****** Object:  StoredProcedure [dbo].[DeleteUser]    Script Date: 7/14/2021 7:38:07 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -824,7 +836,7 @@ UPDATE dbo.Users
 	SET IsDeleted = 1
 WHERE Id = @Id
 GO
-/****** Object:  StoredProcedure [dbo].[RegisterUser]    Script Date: 7/14/2021 12:30:01 AM ******/
+/****** Object:  StoredProcedure [dbo].[RegisterUser]    Script Date: 7/14/2021 7:38:07 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -846,7 +858,7 @@ INSERT INTO [dbo].[Users]
 
 VALUES(@Username, @HashedPassword, @Salt, @Firstname, @Lastname, @CreatorId)
 GO
-/****** Object:  StoredProcedure [dbo].[SetTaskStatus]    Script Date: 7/14/2021 12:30:01 AM ******/
+/****** Object:  StoredProcedure [dbo].[SetTaskStatus]    Script Date: 7/14/2021 7:38:07 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -862,7 +874,7 @@ UPDATE Tasks
 	SET Status = @StatusId
 WHERE Id = @TaskId
 GO
-/****** Object:  StoredProcedure [dbo].[UpdateProject]    Script Date: 7/14/2021 12:30:01 AM ******/
+/****** Object:  StoredProcedure [dbo].[UpdateProject]    Script Date: 7/14/2021 7:38:07 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -883,27 +895,30 @@ UPDATE Projects
 		DateOfLastChange = GETUTCDATE()
 WHERE Id = @Id
 GO
-/****** Object:  StoredProcedure [dbo].[UpdateTask]    Script Date: 7/14/2021 12:30:01 AM ******/
+/****** Object:  StoredProcedure [dbo].[UpdateTask]    Script Date: 7/14/2021 7:38:07 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+
 CREATE   PROCEDURE [dbo].[UpdateTask]
 
 @TaskId int,
 @AssigneeId int,
 @Title nvarchar(25),
-@Description nvarchar(50)
+@Description nvarchar(50),
+@LastModifiedById int
 
 AS
 
 UPDATE Tasks
 	SET AssignToId = @AssigneeId,
 		Title = @Title,
-		Description = @Description
+		Description = @Description,
+		LastModifiedById = @LastModifiedById
 WHERE Id = @TaskId
 GO
-/****** Object:  StoredProcedure [dbo].[UpdateTeam]    Script Date: 7/14/2021 12:30:01 AM ******/
+/****** Object:  StoredProcedure [dbo].[UpdateTeam]    Script Date: 7/14/2021 7:38:07 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -924,7 +939,7 @@ UPDATE Teams
 		DateOfLastChange = GETUTCDATE()
 WHERE Id = @Id
 GO
-/****** Object:  StoredProcedure [dbo].[UpdateUser]    Script Date: 7/14/2021 12:30:01 AM ******/
+/****** Object:  StoredProcedure [dbo].[UpdateUser]    Script Date: 7/14/2021 7:38:07 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -951,7 +966,7 @@ UPDATE [dbo].[Users]
 		DateOfLastChange = GETDATE()
 WHERE Id = @Id
 GO
-/****** Object:  StoredProcedure [dbo].[VerifyLogin]    Script Date: 7/14/2021 12:30:01 AM ******/
+/****** Object:  StoredProcedure [dbo].[VerifyLogin]    Script Date: 7/14/2021 7:38:07 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -979,7 +994,7 @@ IF @PasswordHashWithSalt <> @PasswordHashWithSaltIncoming
 IF @IsDeleted = 1
 	SET @IsVerified = 0
 GO
-/****** Object:  Trigger [dbo].[BeforeDeleteTrigger]    Script Date: 7/14/2021 12:30:01 AM ******/
+/****** Object:  Trigger [dbo].[BeforeDeleteTrigger]    Script Date: 7/14/2021 7:38:07 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON

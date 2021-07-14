@@ -112,6 +112,7 @@ router.get("/project/create", isAuthenticated, async function(req, res) {
 	const errors = req.session.errors;
 	if(errors) {
 		res.render("createProject.ejs", { errors: errors });
+		req.session.errors = []
 	}
 	else {
 		res.render("createProject.ejs", { errors: [] });
@@ -169,7 +170,8 @@ router.get("/project/edit/:id", isAuthenticated, async function(req, res) {
 			id: id,
 			project: projectExistence[0],
 			errors: errors
-		})
+		});
+		req.session.errors = [];
 	}
 	else {
 		res.render("editProject.ejs", {
@@ -177,7 +179,7 @@ router.get("/project/edit/:id", isAuthenticated, async function(req, res) {
 			id: id,
 			project: projectExistence[0],
 			errors: []
-		})
+		});
 	}
 
 });
@@ -186,14 +188,20 @@ router.post("/project/edit/", isAuthenticated, configureLimiter(5, 2), async fun
 	console.info(`Receiving new project data: ${req.body}`);
 	const newProjectData = req.body;
 	console.log(newProjectData);
-	const sc = await projects.update(newProjectData, newProjectData.id, req.session.token.id);
-	if (sc) {
-		res.send("There is already a project with this title. Try again!");
-		res.end();
-		return;
+	let errors = validateTPTCredentials(newProjectData);
+
+	if(errors.length) {
+		req.session.errors = errors;
+	}
+	else {
+		req.session.errors = [];
+		const sc = await projects.update(newProjectData, newProjectData.id, req.session.token.id);
+		if (sc) {
+			req.session.errors.push({ message: "There is already a project with this title. Try again!" });
+		}
 	}
 
-	res.redirect("/user/projects");
+	res.redirect(`/user/project/edit/${newProjectData.id}`);
 });
 
 
@@ -237,14 +245,15 @@ router.post("/project/assign", isAuthenticated, configureLimiter(10, 1), async f
 	if (team === undefined || team.length === 0) {
 		req.session.errors.push({ message: "Non existing team" });
 	}
-
-	console.log(data);
-	const result = await projects.assignProjectToTeam(data.projectId, team[0].Id);
+	else {
+		console.log(data);
+		const result = await projects.assignProjectToTeam(data.projectId, team[0].Id);
 	
-	if (result) {
-		req.session.errors.push({ message: "This team is already assigned to this project" })
+		if (result) {
+			req.session.errors.push({ message: "This team is already assigned to this project" })
+		}
+		console.log(result);
 	}
-	console.log(result);
 
 	res.redirect(`/user/project/edit/${data.projectId}`);
 });
@@ -273,6 +282,7 @@ router.get("/task/create", isAuthenticated, configureLimiter(10, 2), async funct
 			projects: _projects_,
 			errors: errors
 		});
+		req.session.errors = []
 	}
 	else {
 		res.render("createTask.ejs", {
@@ -341,6 +351,7 @@ router.get("/task/edit/:id", isAuthenticated, async function(req, res) {
 			users: _users_, 
 			errors: errors 
 		});
+		req.session.errors = [];
 	}
 	else {
 		res.render("editTask.ejs", { 

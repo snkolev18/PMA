@@ -32,15 +32,21 @@
           <div class="sidebar-sticky">
             <ul class="nav flex-column">
               <li class="nav-item">
-                <a class="nav-link active" href="/admin/users/">
+                <a class="nav-link" href="/admin/users/">
                   <span data-feather="home"></span>
-                  Users <span class="sr-only">(current)</span>
+                  Users
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="/admin/teams">
                   <span data-feather="file"></span>
-                  Orders
+                  Teams
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/admin/register">
+                  <span data-feather="file"></span>
+                  Register new user
                 </a>
               </li>
             </ul>
@@ -50,10 +56,10 @@
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
           <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-            <h1 class="h2">Dashboard</h1>
+            <h1 class="h2">Admin Dashboard</h1>
           </div>
-
-          <h2>Section title</h2>
+          <h1>Welcome back, <b><%= username %></b><h1>
+          <h2>In this page, as you may think you can manage all teams and users</h2>
         </main>
       </div>
     </div>

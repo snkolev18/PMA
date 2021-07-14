@@ -16,7 +16,7 @@ let teams = undefined;
 
 router.get("/", isAdmin, function(req, res) {
 	// res.send("<h1>Tova e adminskiya dashboard</h1><br><a href=\"/admin/users/\">Users</a><br><a href=\"/admin/teams/\">Teams</a><br><a href=\"/admin/register/\">Register new user</a>");
-	res.render("admin.ejs")
+	res.render("admin.ejs", { username: req.session.token.username })
 });
 
 
@@ -26,6 +26,7 @@ router.get("/register", isAdmin, function(req, res) {
 		res.render("register.ejs", {
 			errors: errors
 		})
+		req.session.errors = []
 	}
 	else {
 		res.render("register.ejs", {
@@ -95,6 +96,8 @@ router.get("/users/edit/:id", isAdmin, async function(req, res) {
 			user: userExistence[0],
 			errors: errors
 		});
+
+		req.session.errors = []
 	}
 	else {
 		res.render("editUser.ejs", {
@@ -229,6 +232,7 @@ router.get("/teams/edit/:id", isAdmin, async function(req, res) {
 			team: teamExistence[0],
 			errors: errors
 		});
+		req.session.errors = []
 	}
 	else {
 		res.render("editTeam.ejs", {

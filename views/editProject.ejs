@@ -9,12 +9,15 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="ejs.min.js"></script>
     <link href="/styles/table.css" rel="stylesheet">
     <meta name="theme-color" content="#7952b3">
     <title>Document</title>
 </head>
 <body>
-
 
     <div class="container">
             <!-- edit form column -->
@@ -69,11 +72,6 @@
                     </table>
                 </div>
             </div>
-            <% errors.map(error => { %>
-                 <div class="alert alert-danger" role="alert">
-                    <%= error.message %>
-                </div>
-            <% }) %>
             <form action="/user/project/assign" method="POST">
                 <div class="form-group row">
                     <label class="col-lg-3 col-form-label form-control-label">Assign a team to this project</label>
@@ -130,5 +128,40 @@
         <a href="/user/projects"><button class="btn btn-primary">Back</button></a>
     </div>
 
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" id="popErrors">
+        Launch demo modal
+      </button>
+
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <% errors.map(error => { %>
+                    <div class="alert alert-danger" role="alert">
+                       <%= error.message %>
+                   </div>
+               <% }) %>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    <script>
+        function popErrors() {
+            document.getElementById("popErrors").click();
+        }
+        let tempErrors = JSON.parse("<%- JSON.stringify(errors).replace(/\"/g, '\\"') %>")
+        console.log(tempErrors);
+        if(tempErrors.length) { 
+            popErrors();
+        }
+    </script>
 </body>
 </html>
