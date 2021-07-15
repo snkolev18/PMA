@@ -326,6 +326,27 @@ router.post("/teams/assign", isAdmin, async function(req, res) {
 	res.redirect("/admin/teams");
 });
 
+router.post("/teams/users/remove/:teamId", isAdmin, async function(req, res) {
+	const { userId } = req.body;
+	console.log(userId);
+	if(isNaN(req.params.teamId)) {
+		res.status(404).render("errorPage.ejs", {statusCode: 404, errorMessage: "Non existing team"});
+		res.end();
+		return;
+	}
+
+	const teamId = req.params.teamId
+	
+ 	const sc = await teams.removeUserFromTeam(teamId, userId)
+	if(sc) {
+		res.status(400).render("errorPage.ejs", {statusCode: 400, errorMessage: "Error appeared while processing your request"});
+		res.end();
+		return;
+	}
+
+	res.redirect("/admin/teams/users")
+});
+
 module.exports = router;
 
 // This callbacks fire immediately so it can get the instance from the singleton class and then to make a single connection to the DB in the constructor of UsersRepository, TeamsRepository

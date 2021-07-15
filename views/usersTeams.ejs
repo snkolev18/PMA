@@ -35,12 +35,21 @@
                         <td><%= infoPerTeam.Title %></td>
                         <td><%= infoPerTeam.Description %></td>
                         <td><%= infoPerTeam.Username %></td>
+                        <td>
+                            <form action="/admin/teams/users/remove/<%= infoPerTeam.TeamId %>" method="POST">
+                            <button type="submit">
+                                <a class="remove" title="Remove" data-toggle="tooltip"><i class="material-icons">&#xe872;</i></a>
+                                <input readonly name="userId" id="userId" value="<%= infoPerTeam.UserId %>" required type="hidden">
+                                </button>
+                            </form>
+                        </td>
                     </tr>
                 <% }) %>
                 </tbody>
             </table>
         </div>
     </div>  
+    <a href="/admin"><button class="w-100 btn btn-lg btn-primary" type="submit">Back</button></a><br>
 </div>   
 </body>
 </html>

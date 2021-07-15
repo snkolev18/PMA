@@ -68,6 +68,20 @@ class TeamsRepository {
         }
     }
 
+    async removeUserFromTeam(teamId, userId) {
+        try {
+            const result = await this.#teams.request()
+                .input("TeamId", Int, teamId)
+                .input("UserId", Int, userId)
+                .execute("RemoveUserFromTeam")
+            console.log(result);
+        }
+        catch (err) {
+            console.error(err);
+            return 36;
+        }
+    }
+
     async getTeamsWithUsers() {
         try {
             const result = await this.#teams.request().query("SELECT * FROM vTeamsWithUsers");
