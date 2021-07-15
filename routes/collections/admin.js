@@ -7,18 +7,31 @@ const router = express.Router();
 const { DbSingleton } = require("../../lib/dbInstance");
 const { UserRepository } = require("../../repositories/UserRepository");
 const { TeamsRepository } = require("../../repositories/TeamsRepository");
+const { ProjectRepository } = require("../../repositories/ProjectRepository");
+const { TaskRepository } = require("../../repositories/TaskRepository");
 const { isAdmin } = require("../../middlewares/authentication");
 const { generateSalt, hashPassword } = require("../../lib/hash");
 const { validateRegisterCredentials, validateTPTCredentials } = require("../../lib/validations");
 
 let users = undefined;
 let teams = undefined;
+let projects = undefined;
+let tasks = undefined;
 
-router.get("/", isAdmin, function(req, res) {
+router.get("/", isAdmin, async function(req, res) {
 	// res.send("<h1>Tova e adminskiya dashboard</h1><br><a href=\"/admin/users/\">Users</a><br><a href=\"/admin/teams/\">Teams</a><br><a href=\"/admin/register/\">Register new user</a>");
 	res.render("admin.ejs", { username: req.session.token.username })
 });
 
+router.get("/getstatistics", async function(req, res) {
+	let statistics = {
+		users: await users.getStats(),
+		teams: await teams.getStats(),
+		tasks: await tasks.getStats(),
+		projects: await projects.getStats()
+	}
+	res.send(statistics);
+});
 
 router.get("/register", isAdmin, function(req, res) {
 	const errors = req.session.errors;
@@ -320,5 +333,7 @@ module.exports = router;
 	const temp = await DbSingleton.getInstance();
 	users = new UserRepository();
 	teams = new TeamsRepository();
+	projects = new ProjectRepository();
+	tasks = new TaskRepository();
 	console.log("Connected");
 })();

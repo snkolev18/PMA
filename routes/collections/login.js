@@ -68,6 +68,7 @@ router.post("/", async function(req, res) {
 		}
 		else {
 			console.log(req.session.token);
+			req.session.errors = new Array();
 			req.session.errors.push({ message: "Incorrect username or password" });
 		}
 	}

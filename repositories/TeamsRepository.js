@@ -118,6 +118,16 @@ class TeamsRepository {
         }
     }
 
+    async getStats() {
+        try {
+            const result = await this.#teams.request().query("SELECT COUNT(Id) AS count FROM Teams WHERE IsDeleted = 0");
+            return result.recordset[0];
+        }
+        catch(err) {
+            console.error(err);
+        }
+    }
+
     // Private members
     #teams
 };

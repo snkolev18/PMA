@@ -226,7 +226,7 @@ router.post("/project/delete", isAuthenticated, configureLimiter(3, 3), async fu
 	const result = await projects.delete(id);
 	console.log(result);
 
-	res.redirect("/user/projects");
+	res.redirect(`/user/project/edit/${id}`);
 });
 
 router.post("/project/assign", isAuthenticated, configureLimiter(10, 1), async function(req, res) {
@@ -420,31 +420,59 @@ router.post("/task/delete", isAuthenticated, async function(req, res) {
 	res.redirect("/user/profile");
 });
 
-router.post("/update/project/status", isAuthenticated, configureLimiter(6, 2), async function(req, res) {
+router.post("/update/task/status", isAuthenticated, configureLimiter(6, 2), async function(req, res) {
 	const data = req.body;
 	console.table(data);
-
-	if(data.status instanceof Array) {
-		data.status = data.status.map(status => {
-			if(status === "Open this select menu") {
-				status = "1";
-			}
-			return status
-		})
-		console.log(data);
 	
-		for(let i = 0; i < data.status.length; i++) {
-			const sc = await tasks.updateStatus(data.id[i], data.status[i]);
-			console.log(sc);
+	const taskExistence = await tasks.getTaskById(data.id);
+	if(taskExistence === undefined) {
+		res.status(404).render("errorPage.ejs", { statusCode: 404, errorMessage: "Not found" });
+		res.end();
+		return;
+	}
+
+	let isAllowed = false;
+
+	if(taskExistence.AuthorId !== req.session.token.id) {
+		if(taskExistence.AssignToId === req.session.token.id) {
+			isAllowed = true;
 		}
+		else {
+			isAllowed = false;
+		}
+	} 
+	else {
+		isAllowed = true;
+	}
+
+	if (isAllowed) {
+		if(data.status instanceof Array) {
+			data.status = data.status.map(status => {
+				if(status === "Open this select menu") {
+					status = "1";
+				}
+				return status
+			})
+			console.log(data);
+	
+			for(let i = 0; i < data.status.length; i++) {
+				const sc = await tasks.updateStatus(data.id[i], data.status[i]);
+				console.log(sc);
+			}
+		}
+		else {
+			if(data.status === "Open this select menu") {
+				data.status = "1";
+			}
+			const sc = await tasks.updateStatus(data.id, data.status);
+		}
+		res.redirect("/user/profile");
 	}
 	else {
-		if(data.status === "Open this select menu") {
-			data.status = "1";
-		}
-		const sc = await tasks.updateStatus(data.id, data.status);
+		res.status(403).render("errorPage.ejs", { statusCode: 403, errorMessage: "Forbidden" });
+		res.end();
+		return;
 	}
-	res.redirect("/user/profile");
 });
 
 

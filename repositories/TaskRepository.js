@@ -118,6 +118,16 @@ class TaskRepository {
         }
     }
 
+    async getStats() {
+        try {
+            const result = await this.#tasks.request().query("SELECT COUNT(Id) AS count FROM Tasks WHERE IsDeleted = 0");
+            return result.recordset[0];
+        }
+        catch(err) {
+            console.error(err);
+        }
+    }
+
 
     #tasks
 }

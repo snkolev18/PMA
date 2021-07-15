@@ -126,6 +126,16 @@ class UserRepository {
         }
     }
 
+    async getStats() {
+        try {
+            const result = await this.#users.request().query("SELECT COUNT(Id) AS count FROM Users WHERE IsDeleted = 0");
+            return result.recordset[0];
+        }
+        catch(err) {
+            console.error(err);
+        }
+    }
+
     // Private members
     #users
     

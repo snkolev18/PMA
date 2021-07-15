@@ -18,18 +18,19 @@ app.use(helmet.contentSecurityPolicy(
 		useDefaults: false,
 		directives: {
 			defaultSrc: helmet.contentSecurityPolicy.dangerouslyDisableDefaultSrc,
-			scriptSrc: ["'self'", "https://code.jquery.com/", "https://cdn.jsdelivr.net/", "https://unpkg.com/"],
+			scriptSrc: ["'self'", "https://www.gstatic.com/", "https://code.jquery.com/", "https://cdn.jsdelivr.net/", "https://unpkg.com/", "'sha256-n0en0GASyF55nxk0nHbKi/6ZUXOA1GNDcBPfaP8JnpY='", "'sha256-YvxtAQBnFRbNciqp3bRW6t7A6lGk0ltLyki9K/wUb5w='", "'sha256-9SzKCoCiq2D39Ny+d7S/c/kSAfvvgn3Nux1cgiTMhAo='", "'sha256-m/ms/a5rxV5J+2L2RKdxZAVQmJ8HpkReie32QXXXoRU='", "'sha256-GYglk0Yy1AhqVI2bQqKjHVh7Bai7YQ5guev2OdscHOQ='"],
 			objectSrc: ["'none'"],
 			upgradeInsecureRequests: [],
 			imgSrc: ["'self'", "data:", "https://investsofia.com/wp-content/uploads/2019/08/facebook-default-no-profile-pic-300x300.jpg"],
-			fontSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com/", "https://fonts.gstatic.com"],
-			styleSrc: ["'self'", "'unsafe-inline'", "https://cdn.jsdelivr.net/", "https://fonts.gstatic.com/", "https://fonts.googleapis.com/", "https://getbootstrap.com", "https://cdnjs.cloudflare.com", "https://stackpath.bootstrapcdn.com"]
+			fontSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com/", "https://fonts.gstatic.com", "https://www.gstatic.com/"],
+			styleSrc: ["'self'", "'unsafe-inline'", "https://cdn.jsdelivr.net/", "https://fonts.gstatic.com/", "https://fonts.googleapis.com/", "https://getbootstrap.com", "https://cdnjs.cloudflare.com", "https://stackpath.bootstrapcdn.com", "https://www.gstatic.com/"]
 		}
 	}
 ), helmet.crossOriginResourcePolicy());
 
 // Servers static files like css, html and looks for them in the public folder
 app.use("/styles", express.static("public/styles"))
+app.use("/js", express.static("public/js"))
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended : true }));
