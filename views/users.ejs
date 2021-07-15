@@ -27,6 +27,10 @@
                         <th>Username</th>
                         <th>Firstname</th>
                         <th>Lastname</th>
+                        <th>Date of creation</th>
+                        <th>Date of last change</th>
+                        <th>Last modified by username</th>
+                        <th>Created by</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -36,6 +40,10 @@
                         <td><%= user.Username %></td>
                         <td><%= user.Firstname %></td>
                         <td><%= user.Lastname %></td>
+                        <td><%= user.DateOfCreation.toString().substring(0, 24) %></td>
+                        <td><%= user.DateOfLastChange.toString().substring(0, 24) %></td>
+                        <td><%= user.LastModifiedByUsername %></td>
+                        <td><%= user.CreatorUsername %></td>
                         <td>
                             <a href="/admin/users/edit/<%= user.Id %>" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
                         </td>

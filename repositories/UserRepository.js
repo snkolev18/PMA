@@ -11,7 +11,7 @@ class UserRepository {
 
     async getAll() {
         try {
-            const result = await this.#users.request().query("SELECT Id, Username, Firstname, Lastname, DateOfCreation FROM Users WHERE IsDeleted = 0");
+            const result = await this.#users.request().query("SELECT * FROM vAllUsers");
             return result.recordset;
         }
         catch (err) {

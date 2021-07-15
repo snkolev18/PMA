@@ -423,56 +423,28 @@ router.post("/task/delete", isAuthenticated, async function(req, res) {
 router.post("/update/task/status", isAuthenticated, configureLimiter(6, 2), async function(req, res) {
 	const data = req.body;
 	console.table(data);
-	
-	const taskExistence = await tasks.getTaskById(data.id);
-	if(taskExistence === undefined) {
-		res.status(404).render("errorPage.ejs", { statusCode: 404, errorMessage: "Not found" });
-		res.end();
-		return;
-	}
 
-	let isAllowed = false;
-
-	if(taskExistence.AuthorId !== req.session.token.id) {
-		if(taskExistence.AssignToId === req.session.token.id) {
-			isAllowed = true;
-		}
-		else {
-			isAllowed = false;
-		}
-	} 
-	else {
-		isAllowed = true;
-	}
-
-	if (isAllowed) {
-		if(data.status instanceof Array) {
-			data.status = data.status.map(status => {
-				if(status === "Open this select menu") {
-					status = "1";
-				}
-				return status
-			})
-			console.log(data);
-	
-			for(let i = 0; i < data.status.length; i++) {
-				const sc = await tasks.updateStatus(data.id[i], data.status[i]);
-				console.log(sc);
+	if(data.status instanceof Array) {
+		data.status = data.status.map(status => {
+			if(status === "Open this select menu") {
+				status = "1";
 			}
+			return status
+		})
+		console.log(data);
+	
+		for(let i = 0; i < data.status.length; i++) {
+			const sc = await tasks.updateStatus(data.id[i], data.status[i]);
+			console.log(sc);
 		}
-		else {
-			if(data.status === "Open this select menu") {
-				data.status = "1";
-			}
-			const sc = await tasks.updateStatus(data.id, data.status);
-		}
-		res.redirect("/user/profile");
 	}
 	else {
-		res.status(403).render("errorPage.ejs", { statusCode: 403, errorMessage: "Forbidden" });
-		res.end();
-		return;
+		if(data.status === "Open this select menu") {
+			data.status = "1";
+		}
+		const sc = await tasks.updateStatus(data.id, data.status);
 	}
+	res.redirect("/user/profile");
 });
 
 

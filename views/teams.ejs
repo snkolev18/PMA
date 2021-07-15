@@ -36,10 +36,10 @@
                         <td><%= team.Id %></td>
                         <td><%= team.Title %></td>
                         <td><%= team.Description %></td>
-                        <td><%= team.DateOfCreation.toString().substring(0, 23) %></td>
+                        <td><%= team.DateOfCreation.toString().substring(0, 24) %></td>
                         <td><%= team.Username %></td>
-                        <td>last mod by </td>
-                        <td>2021-07-07</td>
+                        <td><%= team.LastModifiedByUsername %></td>
+                        <td><%= team.DateOfLastChange.toString().substring(0, 24) %></td>
                         <td>
                             <a href="/admin/teams/edit/<%= team.Id %>" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
                         </td>

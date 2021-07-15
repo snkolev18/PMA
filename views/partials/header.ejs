@@ -9,23 +9,7 @@
       <li class="nav-item">
         <a class="nav-link active" aria-current="page" href="/">Home</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">About</a>
-      </li>
-      <li class="nav-item">
-        <% if (logged) { %>
-          <a class="nav-link" href="/logout">Log out</a>
-        <% } else { %>
-          <a class="nav-link" href="/login">Log in</a>
-        <% } %>
-      </li>
       <% if (logged) { %>
-      <li class="nav-item">
-            <a class="nav-link" href="/user/projects">Projects Management</a>
-      </li>
-      <li class="nav-item">
-            <a class="nav-link" href="/user/tasks">Tasks Management</a>
-      </li>
       <li class="nav-item">
             <a class="nav-link" href="/user/profile">Your profile</a>
       </li>
@@ -35,6 +19,15 @@
       </li>
        <% } %>
       <% } %>
+      <ul class="navbar-nav">
+      <li class="nav-item">
+        <% if (logged) { %>
+          <a class="nav-link" href="/logout">Log out</a>
+        <% } else { %>
+          <a class="nav-link" href="/login">Log in</a>
+        <% } %>
+      </li>
+      </ul>
     </ul>
   </div>
 </div>

@@ -1,0 +1,12 @@
+body {
+    background-image: url("/img/sf.jpg"); 
+    background-repeat: no-repeat; 
+    background-size: cover;
+}
+h1{
+	color:rosybrown;
+	text-align:center;
+	margin-top:200px;
+	text-shadow:1px 1px 1px black;
+	font-size:50px;
+}
