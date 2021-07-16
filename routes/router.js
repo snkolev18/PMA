@@ -3,6 +3,7 @@ module.exports = function(app) {
 	app.use("/login", require("./collections/login"));
 	app.use("/admin", require("./collections/admin"));
 	app.use("/user", require("./collections/user"));
+	app.use("/contact", require("./collections/contact"));
 };
 
     
